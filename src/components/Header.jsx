@@ -1,43 +1,61 @@
-import { useState } from 'react';
+import { useState } from "react";
+import logo from "../assets/footerLogo.svg";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center">
-            <div className="text-2xl font-bold text-blue-900">
-              <span className="text-orange-500">E</span>AM CO.
-            </div>
-          </div>
+    <header className="w-full sticky top-0 z-50">
+      {/* Desktop / Tablet */}
+      <div className="hidden md:flex w-full h-20">
+        {/* Right: Blue half with logo */}
+        <div className="w-1/2 bg-[#103B68] flex items-center justify-center">
+          <img src={logo} alt="logo" className="h-14" />
+        </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8 space-x-reverse">
-            <a href="#home" className="text-blue-900 hover:text-orange-500 transition">الرئيسية</a>
-            <a href="#services" className="text-blue-900 hover:text-orange-500 transition">خدماتنا</a>
-            <a href="#about" className="text-blue-900 hover:text-orange-500 transition">من نحن</a>
-            <a href="#contact" className="text-blue-900 hover:text-orange-500 transition">تواصل معنا</a>
+        {/* Left: White half with nav + buttons */}
+        <div className="w-1/2 bg-white flex items-center justify-between px-6">
+          {/* Links (aligned left side of the white half) */}
+          <nav className="flex items-center gap-6 text-[#103B68] font-medium">
+            <a href="#home" className="hover:text-[#FAA617] transition">الرئيسية</a>
+            <a href="#services" className="hover:text-[#FAA617] transition">خدماتنا</a>
+            <a href="#about" className="hover:text-[#FAA617] transition">من نحن</a>
+            <a href="#contact" className="hover:text-[#FAA617] transition">تواصل معنا</a>
           </nav>
 
-          {/* Language & Auth Buttons */}
-          <div className="flex items-center space-x-4 space-x-reverse">
-            <button className="px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-800 transition">
-              EN
-            </button>
-            <button className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition hidden md:block">
+          {/* Buttons (on the far left inside the white half) */}
+          <div className="flex items-center gap-3">
+            <button className="px-3 py-1 bg-[#103B68] text-white rounded text-sm">EN</button>
+            <button className="px-4 py-2 bg-[#FAA617] text-white rounded hover:bg-[#e29a12] transition">
               تسجيل دخول
             </button>
-            <button className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition hidden md:block">
+            <button className="px-4 py-2 bg-[#FAA617] text-white rounded hover:bg-[#e29a12] transition">
               تسجيل
             </button>
-            
-            {/* Mobile Menu Button */}
-            <button 
-              className="md:hidden text-blue-900"
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile */}
+      <div className="md:hidden w-full bg-white">
+        <div className="flex items-center justify-between px-4 py-3">
+          {/* Small blue logo block at right */}
+          <div className="bg-[#103B68] p-2 rounded flex items-center justify-center">
+            <img src={logo} alt="logo" className="h-10" />
+          </div>
+
+          {/* Title / empty spacer to keep logo on right */}
+          <div className="flex-1 text-center text-[#103B68] font-medium">
+            {/* يمكنك وضع عنوان أو تركه فارغ */}
+          </div>
+
+          {/* Menu + EN button */}
+          <div className="flex items-center gap-2">
+            <button className="px-2 py-1 bg-[#103B68] text-white rounded text-sm">EN</button>
+            <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-[#103B68] p-2"
+              aria-label="menu"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -46,20 +64,17 @@ function Header() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden mt-4 pb-4">
-            <nav className="flex flex-col space-y-4">
-              <a href="#home" className="text-blue-900 hover:text-orange-500 transition">الرئيسية</a>
-              <a href="#services" className="text-blue-900 hover:text-orange-500 transition">خدماتنا</a>
-              <a href="#about" className="text-blue-900 hover:text-orange-500 transition">من نحن</a>
-              <a href="#contact" className="text-blue-900 hover:text-orange-500 transition">تواصل معنا</a>
-              <button className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition w-full text-right">
-                تسجيل دخول
-              </button>
-              <button className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition w-full text-right">
-                تسجيل
-              </button>
+          <div className="px-4 pb-4">
+            <nav className="flex flex-col gap-3 text-[#103B68]">
+              <a href="#home" className="py-2 border-b">الرئيسية</a>
+              <a href="#services" className="py-2 border-b">خدماتنا</a>
+              <a href="#about" className="py-2 border-b">من نحن</a>
+              <a href="#contact" className="py-2 border-b">تواصل معنا</a>
+              <div className="flex gap-2 mt-3">
+                <button className="flex-1 px-4 py-2 bg-[#FAA617] text-white rounded">تسجيل دخول</button>
+                <button className="flex-1 px-4 py-2 bg-[#FAA617] text-white rounded">تسجيل</button>
+              </div>
             </nav>
           </div>
         )}
@@ -69,4 +84,3 @@ function Header() {
 }
 
 export default Header;
-
