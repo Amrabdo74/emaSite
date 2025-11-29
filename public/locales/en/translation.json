@@ -1,0 +1,94 @@
+{
+  "header": {
+    "home": "Home",
+    "services": "Our Services",
+    "about": "About Us",
+    "contact": "Contact Us",
+    "login": "Login",
+    "register": "Register",
+    "language": "AR"
+  },
+  "hero": {
+    "title": "Welcome to Eima.",
+    "description": "We offer you everything you need to develop your business, from design, programming, marketing, and licenses.",
+    "learnMore": "Learn More",
+    "ourServices": "Our Services",
+    "contactUs": "Contact Us",
+    "headquarters": "Headquarters",
+    "location": "Saudi Arabia - Jeddah - Riyadh",
+    "email": "EAM.info.2025@gmail.com",
+    "phone": "01098978273"
+  },
+  "features": {
+    "innovation": "Innovation",
+    "achievement": "Achievement",
+    "quality": "Quality",
+    "bestPrices": "Best Prices",
+    "description": "Designing a website for your company is more effective in electronic marketing to achieve success in business"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "Eima Soft for Software",
+    "description1": "A leading team in website design, programming, and electronic marketing, started its services in 2013, and provided its technical services to a large number of clients, institutions, centers, and bodies.",
+    "description2": "A leading team in website design, programming, and electronic marketing, started its services in 2013, and provided its technical services to a large number of clients, institutions, centers, and bodies.",
+    "imagePlaceholder": "About Us Image"
+  },
+  "services": {
+    "title": "Our Services",
+    "architectural": {
+      "title": "Architectural and Structural Design",
+      "description": "Innovative architectural design and integrated structural solutions for residential and commercial projects"
+    },
+    "webDevelopment": {
+      "title": "Website and Application Development",
+      "description": "The best solutions and offers available for designing excellent electronic websites"
+    },
+    "licenses": {
+      "title": "Licenses Department",
+      "description": "We provide all licensing services needed by establishments and companies, such as issuing municipal licenses, safety certificates, and vehicle operating cards"
+    },
+    "marketing": {
+      "title": "Advertising and Electronic Marketing",
+      "description": "Managing advertising and marketing campaigns through social media messages and designing visual identity"
+    },
+    "webDesign": {
+      "title": "Designing a website for your company is more effective in electronic marketing to achieve success in business",
+      "description": "Designing a website for your company is more effective in electronic marketing to achieve success in business"
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "intro": "Do you have inquiries about our technical and marketing services? Here you will find clear answers to the most common questions about application development, website design, digital marketing. If you don't find your answer, don't hesitate to contact us?",
+    "questions": {
+      "q1": "What are the requirements to start a programming project with us?",
+      "a1": "All you need is your project idea or your core problem, and we will analyze it, develop an implementation plan, and provide a comprehensive price offer that includes time, cost, and the best proposed technical solutions.",
+      "q2": "How can I convert my old website to a professional platform?",
+      "a2": "We analyze your current website and identify improvement points, then provide a comprehensive plan to develop and convert it into a modern professional platform.",
+      "q3": "What marketing options do you have available?",
+      "a3": "We provide comprehensive digital marketing services including managing advertising campaigns on social media, search engine optimization (SEO), and content marketing.",
+      "q4": "Do you provide maintenance and technical support after project delivery?",
+      "a4": "Yes, we provide continuous maintenance and technical support services after project delivery to ensure your website or application continues to operate efficiently."
+    },
+    "imagePlaceholder": "Devices Image"
+  },
+  "footer": {
+    "about": "A leading team in website design, programming, and electronic marketing, started its services in 2013, and provided its technical services to a large number of clients, institutions, centers, and bodies.",
+    "sitePages": "Site Pages",
+    "socialMedia": "Social Media",
+    "copyright": "All rights reserved",
+    "pages": {
+      "home": "Home",
+      "about": "About Us",
+      "services": "Our Services",
+      "contact": "Contact Us"
+    },
+    "social": {
+      "facebook": "Facebook",
+      "whatsapp": "WhatsApp",
+      "twitter": "Twitter",
+      "instagram": "Instagram",
+      "youtube": "YouTube"
+    }
+  }
+}
+

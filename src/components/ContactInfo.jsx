@@ -1,4 +1,7 @@
+import { useTranslation } from 'react-i18next';
+
 function ContactInfo() {
+  const { t } = useTranslation();
   return (
     <section className="bg-white py-12">
       <div className="container mx-auto px-4">
@@ -11,8 +14,8 @@ function ContactInfo() {
               </svg>
             </div>
             <div className="text-right">
-              <h3 className="text-gray-600 mb-1">تواصل معانا</h3>
-              <p className="text-blue-900 font-semibold">EAM.info.2025@gmail.com</p>
+              <h3 className="text-gray-600 mb-1">{t('hero.contactUs')}</h3>
+              <p className="text-blue-900 font-semibold">{t('hero.email')}</p>
             </div>
           </div>
 
@@ -24,8 +27,8 @@ function ContactInfo() {
               </svg>
             </div>
             <div className="text-right">
-              <h3 className="text-gray-600 mb-1">تواصل معانا</h3>
-              <p className="text-blue-900 font-semibold">01098978273</p>
+              <h3 className="text-gray-600 mb-1">{t('hero.contactUs')}</h3>
+              <p className="text-blue-900 font-semibold">{t('hero.phone')}</p>
             </div>
           </div>
 
@@ -38,8 +41,8 @@ function ContactInfo() {
               </svg>
             </div>
             <div className="text-right">
-              <h3 className="text-gray-600 mb-1">المقر الرئيسي</h3>
-              <p className="text-blue-900 font-semibold">السعوديه جده - الرياض</p>
+              <h3 className="text-gray-600 mb-1">{t('hero.headquarters')}</h3>
+              <p className="text-blue-900 font-semibold">{t('hero.location')}</p>
             </div>
           </div>
         </div>
