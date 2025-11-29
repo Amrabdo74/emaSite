@@ -1,1 +1,59 @@
 @import "tailwindcss";
+/* @tailwind utilities;
+@tailwind base;
+@tailwind components; */
+
+/* theme colors for tailwind variables */
+@theme {
+  /* Primary Colors */
+  --color-primary: #103B68;
+
+  /* Background Colors */
+  --color-screens: #FAA617;
+
+  --color-cards: #93CAFF;
+  /* --color-dark: #0572b5;
+  --color-footer: #f9fcfe;
+  --color-gray-light: #d1d1d6;
+  --color-blue-darker: #023554;
+  --color-secondary: #ebebeb; */
+
+  /* Gradient Colors */
+  /* --color-blue-start: #0798f1;
+  --color-blue-end: #0572b5; */
+
+  /* Hover Colors */
+  /* --color-normal-hover: #0689d9;
+  --color-normal-active: #067ac1;
+  --color-dark-hover: #045b91;
+  --color-dark-active: #03446c; */
+
+  /* Text Colors */
+  --color-text-title: #1c1c1c;
+  --color-text-titles: #222222;
+  --color-text-primary: #121217;
+  --color-text-body: #686767;
+  --color-text-captions: #b8bfc5;
+  --color-text-tabs: #6f6f6f;
+
+  /* Border Colors */
+  --color-border-blue: #b2dffb;
+  --color-border-gray: #d8d8d8;
+}
+
+/* 
+  Usage Examples:
+  - Background: bg-primary, bg-screens, bg-cards, bg-dark, bg-footer, bg-gray-light, bg-blue-darker, bg-secondary
+  - Text: text-primary, text-title, text-titles, text-body, text-captions, text-tabs
+  - Border: border-primary, border-blue, border-gray
+  - Hover: hover:bg-normal-hover, hover:bg-normal-active, hover:bg-dark-hover, hover:bg-dark-active
+  - Gradients: from-blue-start to-blue-end
+*/
+
+button {
+  @apply cursor-pointer;
+}
+
+.container {
+  @apply xl:w-[90%] max-w-[1300px] sm:w-[85%] w-[90%] !mx-auto;
+}

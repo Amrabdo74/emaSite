@@ -6,17 +6,19 @@ import AboutUs from './components/AboutUs';
 import Services from './components/Services';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
+import Honecard from './components/Honecard';
 
 function App() {
   return (
     <div className="min-h-screen">
       <Header />
       <Hero />
-      <ContactInfo />
+      <Honecard />
+      {/* <ContactInfo />
       <Features />
       <AboutUs />
       <Services />
-      <FAQ />
+      <FAQ /> */}
       <Footer />
     </div>
   );
