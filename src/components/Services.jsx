@@ -1,84 +1,135 @@
-import { useTranslation } from 'react-i18next';
+import React, { useState } from 'react';
+import Bg from '../assets/servicesBg.png'
+import inshaey from '../assets/inshaey.svg'
+import marketing from '../assets/marketing.svg'
+import tarakhis from '../assets/tarakhis.svg'
+import web from '../assets/web.svg'
 
-function Services() {
-  const { t } = useTranslation();
-  
+const ServicesCards = () => {
+  const [hoveredCard, setHoveredCard] = useState(null);
+
   const services = [
     {
-      title: t('services.architectural.title'),
-      description: t('services.architectural.description'),
-      icon: (
-        <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-        </svg>
-      )
+      id: 2,
+      titleAr: "تطوير المواقع والتطبيقات",
+      titleEn: "Website & App Development",
+      descriptionAr: "أفضل الحلول والعروض المتاحة لتصميم مواقع إلكترونية مميزة",
+      descriptionEn: "Best solutions and offers available for designing exceptional websites",
+      imageSrc: web, // سيتم إضافة الصورة هنا
     },
     {
-      title: t('services.webDevelopment.title'),
-      description: t('services.webDevelopment.description'),
-      icon: (
-        <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-        </svg>
-      )
+      id: 4,
+      titleAr: "الدعاية والإعلان والتسويق الإلكتروني",
+      titleEn: "Advertising & Digital Marketing",
+      descriptionAr: "إدارة الحملات الإعلانية والتسويق عبر وسائل التواصل الاجتماعي وتصميم الهوية البصرية",
+      descriptionEn: "Managing advertising campaigns, social media marketing, and visual identity design",
+      imageSrc: marketing, // سيتم إضافة الصورة هنا
     },
     {
-      title: t('services.licenses.title'),
-      description: t('services.licenses.description'),
-      icon: (
-        <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      )
+      id: 1,
+      titleAr: "التصميم المعماري والإنشائي",
+      titleEn: "Architectural & Structural Design",
+      descriptionAr: "تصميم معماري مبتكر وحلول إنشائية متكاملة للمشاريع السكنية والتجارية",
+      descriptionEn: "Innovative architectural design and integrated structural solutions for residential and commercial projects",
+      imageSrc: inshaey // سيتم إضافة الصورة هنا
     },
     {
-      title: t('services.marketing.title'),
-      description: t('services.marketing.description'),
-      icon: (
-        <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
-        </svg>
-      )
-    },
-    {
-      title: t('services.webDesign.title'),
-      description: t('services.webDesign.description'),
-      icon: (
-        <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-        </svg>
-      )
+      id: 3,
+      titleAr: "قسم الرخص",
+      titleEn: "Licensing Department",
+      descriptionAr: "توفير جميع خدمات الرخص التي تحتاجها المنشآت والشركات مثل إصدار رخصة البلدية ومشاهدة السلامة إصدار كارت تشغيل المركبات",
+      descriptionEn: "Providing all licensing services needed by establishments and companies such as municipal licenses, safety certificates, and vehicle operation cards",
+      imageSrc: tarakhis, // سيتم إضافة الصورة هنا
     }
   ];
 
+  // يمكنك تغيير اللغة من هنا
+  const currentLanguage = "ar"; // أو "en"
+
   return (
-    <section id="services" className="bg-gray-50 py-20">
-      <div className="container mx-auto px-4">
-        <h2 className="text-4xl md:text-5xl font-bold text-orange-500 text-center mb-12">
-          {t('services.title')}
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <div
-              key={index}
-              className="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-2"
-            >
-              <div className="flex justify-center mb-6 text-orange-500">
-                {service.icon}
-              </div>
-              <h3 className="text-xl font-bold text-blue-900 text-center mb-4">
-                {service.title}
-              </h3>
-              <p className="text-gray-700 text-center leading-relaxed">
-                {service.description}
-              </p>
-            </div>
-          ))}
+    <div 
+      className="min-h-screen p-8 bg-cover bg-center bg-no-repeat"
+      dir={currentLanguage === "ar" ? "rtl" : "ltr"}
+      style={{
+        
+        backgroundImage: `url(${Bg})`
+      }}
+    >
+      {/* Header */}
+      <div className="text-center mb-12">
+        <div className="inline-flex items-center gap-2 mb-4">
+          <h1 className="text-5xl font-bold text-blue-900">
+            {currentLanguage === "ar" ? "خدمـــــــــاتنا" : "Our Services"}
+          </h1>
+          <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-[#FAA617] rounded-full"></div>
+          </div>
         </div>
       </div>
-    </section>
+
+      {/* Cards Grid */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+        {services.map((service) => (
+          <div
+            key={service.id}
+            onMouseEnter={() => setHoveredCard(service.id)}
+            onMouseLeave={() => setHoveredCard(null)}
+            className={`
+              rounded-[40px] p-8 
+              transition-all duration-300 ease-in-out
+              cursor-pointer
+              ${hoveredCard === service.id 
+                ? 'bg-[#93CAFF] border-0 shadow-2xl scale-105 -translate-y-2' 
+                : 'bg-white'
+              }
+            `}
+            
+          >
+            <div className="flex items-center justify-start flex-row-reverse gap-3">
+              {/* Text Content */}
+              <div className="flex-1" style={{ textAlign: currentLanguage === "ar" ? "right" : "left" }}>
+                <h2 className={`
+                  text-xl font-semibold mb-4
+                  transition-colors duration-300
+                  ${hoveredCard === service.id ? 'text-white' : 'text-gray-800'}
+                `}>
+                  {currentLanguage === "ar" ? service.titleAr : service.titleEn}
+                </h2>
+                <p className={`
+                  text-base leading-relaxed
+                  transition-colors duration-300
+                  ${hoveredCard === service.id ? 'text-white' : 'text-gray-600'}
+                `}>
+                  {currentLanguage === "ar" ? service.descriptionAr : service.descriptionEn}
+                </p>
+              </div>
+
+              {/* Image Icon */}
+              <div className={`
+                rounded-full p-6
+                flex items-center justify-center
+                transition-all duration-300
+                
+              `}>
+                {service.imageSrc ? (
+                  <img 
+                    src={service.imageSrc} 
+                    alt={currentLanguage === "ar" ? service.titleAr : service.titleEn}
+                    className="w-24 h-24 object-contain"
+                  />
+                ) : (
+                  <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center text-gray-400 text-xs text-center">
+                    ضع الصورة هنا
+                  </div>
+                )}
+              </div>
+            </div>
+
+          </div>
+        ))}
+      </div>
+    </div>
   );
-}
+};
 
-export default Services;
-
+export default ServicesCards;

@@ -1,81 +1,121 @@
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import faqImage from '../assets/faqImage.png'
 
 function FAQ() {
-  const { t } = useTranslation();
   const [openIndex, setOpenIndex] = useState(0);
+
+  // يمكنك تغيير اللغة من هنا
+  const currentLanguage = "ar"; // أو "en"
 
   const faqs = [
     {
-      question: t('faq.questions.q1'),
-      answer: t('faq.questions.a1')
+      questionAr: "1. ما هي متطلبات بدء مشروع برمجي معنا؟",
+      questionEn: "1. What are the requirements to start a software project with us?",
+      answerAr: "كل ما تحتاجه هو فكرة مشروعك أو متطلباتك الأساسية. نقوم بتحليلها، ووضع خطة للتنفيذ، وتحديد عرض سعر شامل بالتفاصيل الهامة والحلول التقنية المناسبة وأفضل الحلول التقنية المتقدمة.",
+      answerEn: "All you need is your project idea or basic requirements. We analyze them, create an implementation plan, and provide a comprehensive quote with important details and appropriate advanced technical solutions."
     },
     {
-      question: t('faq.questions.q2'),
-      answer: t('faq.questions.a2')
+      questionAr: "2. كيف يمكنني تحويل موقعي القديم إلى منصة احترافية؟",
+      questionEn: "2. How can I transform my old website into a professional platform?",
+      answerAr: "نقوم بدراسة موقعك الحالي وتحليل نقاط القوة والضعف، ثم نقدم خطة تطوير شاملة تتضمن تحديث التصميم، تحسين الأداء، وإضافة مميزات جديدة تناسب احتياجاتك.",
+      answerEn: "We study your current website, analyze strengths and weaknesses, then provide a comprehensive development plan including design updates, performance improvements, and new features tailored to your needs."
     },
     {
-      question: t('faq.questions.q3'),
-      answer: t('faq.questions.a3')
+      questionAr: "3. ما هي خيارات التسويق المتاحة لديكم؟",
+      questionEn: "3. What marketing options are available?",
+      answerAr: "نوفر حلول تسويقية متكاملة تشمل التسويق عبر وسائل التواصل الاجتماعي، تحسين محركات البحث SEO، الإعلانات المدفوعة، وإدارة الحملات الإعلانية بشكل احترافي.",
+      answerEn: "We provide comprehensive marketing solutions including social media marketing, SEO optimization, paid advertising, and professional advertising campaign management."
     },
     {
-      question: t('faq.questions.q4'),
-      answer: t('faq.questions.a4')
+      questionAr: "4. هل تقدمون صيانة ودعم فني بعد تسليم المشروع؟",
+      questionEn: "4. Do you provide maintenance and technical support after project delivery?",
+      answerAr: "نعم، نوفر خدمات صيانة ودعم فني مستمر لضمان استمرارية عمل مشروعك بكفاءة عالية، مع إمكانية التحديث والتطوير المستقبلي حسب احتياجاتك.",
+      answerEn: "Yes, we provide continuous maintenance and technical support to ensure your project runs efficiently, with the possibility of future updates and development according to your needs."
     }
   ];
 
   return (
-    <section className="bg-white py-20">
+    <section className="bg-gradient-to-b from-gray-50 to-white py-20" style={{ background: 'linear-gradient(to bottom, #93CAFF66, #FFFFFF)' }}>
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row gap-12">
+        <div className="flex flex-col md:flex-row gap-12 items-center" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
+          
           {/* FAQ Content */}
-          <div className="flex-1">
-            <h2 className="text-4xl md:text-5xl font-bold text-blue-900 text-right mb-6">
-              {t('faq.title')}
+          <div className="flex-1 order-2 md:order-1">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1e3a8a] mb-6" style={{ textAlign: currentLanguage === "ar" ? "right" : "left" }}>
+              {currentLanguage === "ar" ? "الأسئلة الشائعة" : "Frequently Asked Questions"}
             </h2>
-            <p className="text-lg text-gray-700 text-right mb-8 leading-relaxed">
-              {t('faq.intro')}
+            <p className="text-lg text-gray-700 mb-8 leading-relaxed" style={{ textAlign: currentLanguage === "ar" ? "right" : "left" }}>
+              {currentLanguage === "ar" 
+                ? "هل لديك استفسارات حول خدماتنا اللاتترة والتسويق؟ هنا ستجد إجابات واضحة لأكثر الأسئلة شيوعاً حول تطوير التطبيقات، تصميم المواقع، التسويق الرقمي إذا لم تجد إجابتك، لا تتردد في التواصل معنا!"
+                : "Do you have questions about our latest services and marketing? Here you will find clear answers to the most common questions about app development, website design, and digital marketing. If you can't find your answer, don't hesitate to contact us!"
+              }
             </p>
             
-            <div className="space-y-4">
+            <div className="space-y-3">
               {faqs.map((faq, index) => (
                 <div
                   key={index}
-                  className="border border-gray-200 rounded-lg overflow-hidden"
+                  className="bg-white border-b-2 border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
                 >
                   <button
-                    className="w-full px-6 py-4 text-right flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition"
+                    className="w-full px-6 py-5 flex items-center justify-between hover:bg-gray-50 transition-colors duration-200"
                     onClick={() => setOpenIndex(openIndex === index ? -1 : index)}
+                    style={{ textAlign: currentLanguage === "ar" ? "right" : "left" }}
                   >
-                    <span className="font-semibold text-blue-900 flex-1">{faq.question}</span>
-                    <span className="text-orange-500 text-2xl font-bold ml-4">
-                      {openIndex === index ? '−' : '+'}
+                    <span className="font-semibold text-[#1e3a8a] text-lg flex-1">
+                      {currentLanguage === "ar" ? faq.questionAr : faq.questionEn}
                     </span>
-                  </button>
-                  {openIndex === index && (
-                    <div className="px-6 py-4 bg-white text-gray-700 leading-relaxed text-right">
-                      {faq.answer}
+                    <div className={`
+                      w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center
+                      transition-all duration-300
+                      ${openIndex === index ? 'bg-[#FAA617] rotate-45' : 'bg-gray-100'}
+                      ${currentLanguage === "ar" ? "mr-4" : "ml-4"}
+                    `}>
+                      <span className={`text-2xl font-light ${openIndex === index ? 'text-white' : 'text-[#FAA617]'}`}>
+                        +
+                      </span>
                     </div>
-                  )}
+                  </button>
+                  <div 
+                    className={`
+                      overflow-hidden transition-all duration-300 ease-in-out
+                      ${openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
+                    `}
+                  >
+                    <div className="px-6 pb-5 pt-2 text-gray-600 leading-relaxed" style={{ textAlign: currentLanguage === "ar" ? "right" : "left" }}>
+                      {currentLanguage === "ar" ? faq.answerAr : faq.answerEn}
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Image Placeholder */}
-          <div className="flex-1">
+          {/* Image Section */}
+          <div className="flex-1 order-1 md:order-2">
             <div className="relative">
-              <div className="w-full h-96 bg-gradient-to-br from-blue-200 to-orange-200 rounded-lg flex items-center justify-center">
-                <div className="text-center text-gray-600">
-                  <svg className="w-32 h-32 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  <p className="text-lg">{t('faq.imagePlaceholder')}</p>
-                </div>
+              {/* Background Circle */}
+              <div className="absolute -top-10 -left-10 w-72 h-72 bg-[#FAA617] rounded-full opacity-60 blur-2xl -z-10"></div>
+              
+              {/* Image Container */}
+              <div className="">
+                <img 
+                  src={faqImage} 
+                  alt="Devices mockup"
+                  className="w-full h-auto rounded-2xl"
+                  // style={{
+                  //   minHeight: "400px",
+                  //   objectFit: "contain",
+                  //   background: "linear-gradient(135deg, #f0f4ff 0%, #e8f0ff 100%)"
+                  // }}
+                />
               </div>
-              <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-orange-400 rounded-full opacity-20 blur-3xl"></div>
+              
+              {/* Decorative Element */}
+              <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-blue-200 rounded-full opacity-40 -z-10"></div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
@@ -83,4 +123,3 @@ function FAQ() {
 }
 
 export default FAQ;
-

@@ -5,60 +5,45 @@ import { useTranslation } from "react-i18next";
 const Honecard = () => {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
-  const [langClass, setLangClass] = useState("en");
 
-  useEffect(() => {
-    setLangClass(currentLanguage);
-  }, [currentLanguage]);
-
+ 
   const cards = [
     {
-      title: t("features.bestPrices"),
-      Icon: FaRegLightbulb,
-      description: t("features.description"),
-      bgClass: "bg-white",
-      titleColor: "text-gray-900",
-      iconColor: "text-yellow-500",
-      dividerColor: "bg-gray-400",
-      textColor: "text-gray-900",
-    },
-    {
-      title: t("features.quality"),
-      Icon: FaTools,
-      description: t("features.description"),
-      bgClass: "bg-white",
-      titleColor: "text-gray-900",
-      iconColor: "text-blue-400",
-      dividerColor: "bg-gray-400",
-      textColor: "text-gray-900",
-    },
-    {
-      title: t("features.achievement"),
-      Icon: FaChartLine,
-      description: t("features.description"),
-      bgClass: "bg-white",
-      titleColor: "text-gray-900",
-      iconColor: "text-yellow-500",
-      dividerColor: "bg-gray-400",
-      textColor: "text-gray-900",
-    },
-    {
-      title: t("features.innovation"),
+      titleAr: "الابتكار",
+      titleEn: "Innovation",
       Icon: FaRocket,
-      description: t("features.description"),
-      bgClass: "bg-screens",
-      titleColor: "text-white",
-      iconColor: "text-white",
-      dividerColor: "bg-white",
-      textColor: "text-white",
+      descriptionAr: "تطوير حلول إبداعية تضمن تجربة أفضل للمستخدم وتحقيق نتائج مميزة.",
+      descriptionEn: "Developing creative solutions that ensure a better user experience and outstanding results.",
+    },
+    {
+      titleAr: "أفضل الأسعار",
+      titleEn: "Best Prices",
+      Icon: FaRegLightbulb,
+      descriptionAr: "نقدم خدمات عالية الجودة بأسعار تنافسية تناسب جميع الفئات.",
+      descriptionEn: "We provide high–quality services at competitive prices suitable for everyone.",
+    },
+    {
+      titleAr: "الجودة",
+      titleEn: "Quality",
+      Icon: FaTools,
+      descriptionAr: "نحرص على تقديم أعلى معايير الجودة في كل جزء من الخدمة.",
+      descriptionEn: "We maintain the highest standards of quality in every aspect of our service.",
+    },
+    {
+      titleAr: "الإنجاز",
+      titleEn: "Achievement",
+      Icon: FaChartLine,
+      descriptionAr: "تنفيذ المهام في الوقت المحدد وتحقيق أهداف العملاء بكفاءة عالية.",
+      descriptionEn: "Completing tasks on time and achieving client goals with maximum efficiency.",
     },
   ];
+    
 
   let delay = 50;
 
   return (
-    <div className="container mx-auto px-4 my-5">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="container mx-auto px-4 my-5" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {cards.map((card, index) => (
           <div
             key={index}
@@ -67,28 +52,31 @@ const Honecard = () => {
             data-aos-delay={`${delay += 150}`}
           >
             <div
-              className={`${card.bgClass} py-8 h-full rounded-2xl`}
+              className={`
+                group py-8 h-full rounded-2xl 
+                shadow-[30px_11px_41px_-18px_rgba(147,202,255,0.4)]
+                hover:shadow-none hover:bg-[#FAA617] 
+                transition-all duration-300 transform hover:-translate-y-2 
+              `}
             >
               <div className="px-6 pb-6">
-                {/* Title at top */}
-                <h5 className={`font-bold text-xl mb-6 text-right ${card.titleColor}`}>
-                  {card.title}
+                
+                {/* العنوان */}
+                <h5 className="font-semibold text-xl mb-2 text-center text-black group-hover:text-white">
+                  {currentLanguage === "ar" ? card.titleAr : card.titleEn}
                 </h5>
                 
-                {/* Icon - no blob shape */}
-                <div className="mb-6 flex justify-center items-center h-32">
-                  <card.Icon size="4em" className={card.iconColor} />
+                {/* الأيقونة */}
+                <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <card.Icon size="2.5em" className="text-[#FAA617] group-hover:text-white transition-all" />
                 </div>
                 
-                {/* Divider line */}
-                <div
-                  className={`${card.dividerColor} mb-4 mx-auto`}
-                  style={{ width: "25%", height: "2px" }}
-                />
+                {/* الخط الفاصل */}
+                <div className="mb-4 mx-auto" style={{ width: "25%", height: "2px", background: "#CCC" }} />
                 
-                {/* Description text */}
-                <p className={`leading-relaxed text-sm text-right ${card.textColor}`}>
-                  {card.description}
+                {/* النص الوصفي */}
+                <p className="leading-6 font-thin text-md text-center text-black group-hover:text-white">
+                  {currentLanguage === "ar" ? card.descriptionAr : card.descriptionEn}
                 </p>
               </div>
             </div>
@@ -100,4 +88,3 @@ const Honecard = () => {
 };
 
 export default Honecard;
-
