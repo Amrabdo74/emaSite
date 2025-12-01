@@ -58,11 +58,11 @@ const ServicesCards = () => {
       {/* Header */}
       <div className="text-center mb-12">
         <div className="inline-flex items-center gap-2 mb-4">
-          <h1 className="text-5xl font-bold text-blue-900">
+          <h1 className="text-5xl font-bold text-primary">
             {currentLanguage === "ar" ? "خدمـــــــــاتنا" : "Our Services"}
           </h1>
-          <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center">
-            <div className="w-12 h-12 bg-[#FAA617] rounded-full"></div>
+          <div className="w-16 h-16 bg-screens rounded-full flex items-center justify-center opacity-50">
+            <div className="w-12 h-12 bg-screens rounded-full"></div>
           </div>
         </div>
       </div>

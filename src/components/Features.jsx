@@ -12,7 +12,7 @@ function Features() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
       ),
-      bgColor: "bg-orange-500",
+      bgColor: "bg-screens",
       textColor: "text-white"
     },
     {
@@ -23,7 +23,7 @@ function Features() {
         </svg>
       ),
       bgColor: "bg-white",
-      textColor: "text-blue-900"
+      textColor: "text-primary"
     },
     {
       title: t('features.quality'),
@@ -33,7 +33,7 @@ function Features() {
         </svg>
       ),
       bgColor: "bg-white",
-      textColor: "text-blue-900"
+      textColor: "text-primary"
     },
     {
       title: t('features.bestPrices'),
@@ -43,7 +43,7 @@ function Features() {
         </svg>
       ),
       bgColor: "bg-white",
-      textColor: "text-blue-900"
+      textColor: "text-primary"
     }
   ];
 

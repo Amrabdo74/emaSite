@@ -11,10 +11,10 @@ function AboutUs() {
           {/* Text Content */}
           <div className="flex-1 text-right space-y-8">
             <div className="space-y-4">
-              <h2 className="text-5xl font-bold text-[#FAA617] leading-tight">
+              <h2 className="text-5xl font-bold text-screens leading-tight">
                 {t('about.title')}
               </h2>
-              <h3 className="text-3xl font-semibold text-blue-900 leading-tight">
+              <h3 className="text-3xl font-semibold text-primary leading-tight">
                 {t('about.subtitle')}
               </h3>
             </div>

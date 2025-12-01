@@ -1,12 +1,12 @@
-import { FaRegLightbulb, FaTools, FaChartLine, FaRocket } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import {  FaTools, FaChartLine, FaRocket, FaPeriscope } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import { MdOutlinePriceCheck } from "react-icons/md";
 
 const Honecard = () => {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
- 
+
   const cards = [
     {
       titleAr: "الابتكار",
@@ -18,7 +18,7 @@ const Honecard = () => {
     {
       titleAr: "أفضل الأسعار",
       titleEn: "Best Prices",
-      Icon: FaRegLightbulb,
+      Icon: MdOutlinePriceCheck,
       descriptionAr: "نقدم خدمات عالية الجودة بأسعار تنافسية تناسب جميع الفئات.",
       descriptionEn: "We provide high–quality services at competitive prices suitable for everyone.",
     },
@@ -37,7 +37,7 @@ const Honecard = () => {
       descriptionEn: "Completing tasks on time and achieving client goals with maximum efficiency.",
     },
   ];
-    
+
 
   let delay = 50;
 
@@ -53,29 +53,40 @@ const Honecard = () => {
           >
             <div
               className={`
+                ${index === 0 ? 'bg-screens text-white' : 'bg-white'}
                 group py-8 h-full rounded-2xl 
-                shadow-[30px_11px_41px_-18px_rgba(147,202,255,0.4)]
-                hover:shadow-none hover:bg-[#FAA617] 
+                ${index === 0 
+                  ? 'shadow-lg' 
+                  : 'shadow-[30px_11px_41px_-18px_rgba(147,202,255,0.4)] hover:shadow-none hover:bg-screens'
+                }
                 transition-all duration-300 transform hover:-translate-y-2 
               `}
             >
               <div className="px-6 pb-6">
-                
+
                 {/* العنوان */}
-                <h5 className="font-semibold text-xl mb-2 text-center text-black group-hover:text-white">
+                <h5 className={`font-semibold text-xl mb-2 text-center ${index === 0 ? 'text-white' : 'text-black group-hover:text-white'}`}>
                   {currentLanguage === "ar" ? card.titleAr : card.titleEn}
                 </h5>
-                
+
                 {/* الأيقونة */}
-                <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <card.Icon size="2.5em" className="text-[#FAA617] group-hover:text-white transition-all" />
+                <div 
+                  className={`w-20 h-20 flex items-center justify-center mx-auto mb-6 ${
+                    index === 0 ? 'bg-white' :
+                    index === 1 ? 'bg-[#FFDF73]' :
+                    index === 2 ? 'bg-[#8FD5E7]' :
+                    'bg-screens'
+                  }`}
+                  style={{ borderRadius: '25px 38px 20px 54px' }}
+                >
+                  <card.Icon size="2.5em" className="text-[#000000] transition-all" />
                 </div>
-                
+
                 {/* الخط الفاصل */}
-                <div className="mb-4 mx-auto" style={{ width: "25%", height: "2px", background: "#CCC" }} />
-                
+                <div className={`mb-4 mx-auto`} style={{ width: "25%", height: "2px", background: index === 0 ? "#FFFFFF" : "#CCC" }} />
+
                 {/* النص الوصفي */}
-                <p className="leading-6 font-thin text-md text-center text-black group-hover:text-white">
+                <p className={`leading-6 font-thin text-md text-center ${index === 0 ? 'text-white' : 'text-black group-hover:text-white'}`}>
                   {currentLanguage === "ar" ? card.descriptionAr : card.descriptionEn}
                 </p>
               </div>

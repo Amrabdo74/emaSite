@@ -42,7 +42,7 @@ function FAQ() {
           
           {/* FAQ Content */}
           <div className="flex-1 order-2 md:order-1">
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1e3a8a] mb-6" style={{ textAlign: currentLanguage === "ar" ? "right" : "left" }}>
+            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-6" style={{ textAlign: currentLanguage === "ar" ? "right" : "left" }}>
               {currentLanguage === "ar" ? "الأسئلة الشائعة" : "Frequently Asked Questions"}
             </h2>
             <p className="text-lg text-gray-700 mb-8 leading-relaxed" style={{ textAlign: currentLanguage === "ar" ? "right" : "left" }}>
@@ -63,7 +63,7 @@ function FAQ() {
                     onClick={() => setOpenIndex(openIndex === index ? -1 : index)}
                     style={{ textAlign: currentLanguage === "ar" ? "right" : "left" }}
                   >
-                    <span className="font-semibold text-[#1e3a8a] text-lg flex-1">
+                    <span className="font-semibold text-primary text-lg flex-1">
                       {currentLanguage === "ar" ? faq.questionAr : faq.questionEn}
                     </span>
                     <div className={`
@@ -96,7 +96,7 @@ function FAQ() {
           <div className="flex-1 order-1 md:order-2">
             <div className="relative">
               {/* Background Circle */}
-              <div className="absolute -top-10 -left-10 w-72 h-72 bg-[#FAA617] rounded-full opacity-60 blur-2xl -z-10"></div>
+              <div className="absolute -top-10 -left-10 w-72 h-72 bg-screens rounded-full opacity-60 blur-2xl -z-10"></div>
               
               {/* Image Container */}
               <div className="">
@@ -113,7 +113,7 @@ function FAQ() {
               </div>
               
               {/* Decorative Element */}
-              <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-blue-200 rounded-full opacity-40 -z-10"></div>
+              <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-primary rounded-full opacity-20 -z-10"></div>
             </div>
           </div>
 

@@ -26,7 +26,7 @@ function Footer() {
     <footer
       className="text-white w-full relative overflow-hidden"
       style={{
-        background: `linear-gradient(to top, #103B68 0%, #103B68 10%, #FFFFFF 10%, #FFFFFF 100%)`
+        background: `linear-gradient(to top, var(--color-primary) 0%, var(--color-primary) 10%, #FFFFFF 10%, #FFFFFF 100%)`
       }}
     >
       <div 
@@ -57,7 +57,7 @@ function Footer() {
               
               {/* Site Pages */}
               <div className="text-right">
-                <h3 className="text-xl font-bold mb-6 px-4 py-2 bg-[#FAA617] inline-block rounded whitespace-nowrap">
+                <h3 className="text-xl font-bold mb-6 px-4 py-2 bg-screens inline-block rounded whitespace-nowrap">
                   {t('footer.sitePages')}
                 </h3>
                 <ul className="space-y-3 mt-6">
@@ -65,11 +65,11 @@ function Footer() {
                     <li key={index} className="flex items-center justify-end gap-2">
                       <a
                         href={page.href}
-                        className="text-white hover:text-[#FAA617] transition-colors text-base whitespace-nowrap"
+                        className="text-white hover:text-screens transition-colors text-base whitespace-nowrap"
                       >
                         {page.name}
                       </a>
-                      <span className="w-4 h-4 bg-[#FAA617] flex-shrink-0"></span>
+                      <span className="w-4 h-4 bg-screens flex-shrink-0"></span>
                     </li>
                   ))}
                 </ul>
@@ -77,7 +77,7 @@ function Footer() {
 
               {/* Social Media */}
               <div className="text-right">
-                <h3 className="text-xl font-bold mb-6 px-4 py-2 bg-[#FAA617] inline-block rounded whitespace-nowrap">
+                <h3 className="text-xl font-bold mb-6 px-4 py-2 bg-screens inline-block rounded whitespace-nowrap">
                   {t('footer.socialMedia')}
                 </h3>
                 <ul className="space-y-3 mt-6">
@@ -85,11 +85,11 @@ function Footer() {
                     <li key={index}>
                       <a 
                         href="#" 
-                        className="flex items-center justify-end gap-3 text-white hover:text-[#FAA617] transition-colors"
+                        className="flex items-center justify-end gap-3 text-white hover:text-screens transition-colors"
                       >
                         <span className="text-base whitespace-nowrap">{social.name}</span>
                         <div className="w-10 h-10 bg-white rounded flex items-center justify-center flex-shrink-0">
-                          <svg className="w-5 h-5 fill-[#103B68]" viewBox="0 0 24 24">
+                          <svg className="w-5 h-5 fill-primary" viewBox="0 0 24 24">
                             <path d={social.icon} />
                           </svg>
                         </div>
@@ -105,7 +105,7 @@ function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-12 pt-6 border-t border-[#FAA617]/30 text-center">
+        <div className="mt-12 pt-6 border-t border-screens/30 text-center">
           <p className="text-white/80 text-sm">
             © {new Date().getFullYear()} EAM CO. {t('footer.copyright')}
           </p>
