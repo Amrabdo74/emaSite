@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import faqImage from '../assets/faqImage.png'
+import { FaPlus } from 'react-icons/fa';
 
 function FAQ() {
   const [openIndex, setOpenIndex] = useState(0);
@@ -66,13 +67,13 @@ function FAQ() {
                       {currentLanguage === "ar" ? faq.questionAr : faq.questionEn}
                     </span>
                     <div className={`
-                      w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center
+                      w-8 h-8 rounded-full  flex items-center justify-center
                       transition-all duration-300
-                      ${openIndex === index ? 'bg-[#FAA617] rotate-45' : 'bg-gray-100'}
+                      ${openIndex === index ? 'bg-screens rotate-45' : 'bg-gray-100'}
                       ${currentLanguage === "ar" ? "mr-4" : "ml-4"}
                     `}>
-                      <span className={`text-2xl font-light ${openIndex === index ? 'text-white' : 'text-[#FAA617]'}`}>
-                        +
+                      <span className={`text-sm font-light ${openIndex === index ? 'text-white' : 'text-screens'}`}>
+                        <FaPlus />
                       </span>
                     </div>
                   </button>
