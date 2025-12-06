@@ -6,6 +6,8 @@
 body {
   font-family: "Cairo", sans-serif !important;
   font-weight: 400;
+  background-color: #f9fcfe !important;
+  overflow-x: hidden !important;
 }
 
 /* @tailwind utilities;

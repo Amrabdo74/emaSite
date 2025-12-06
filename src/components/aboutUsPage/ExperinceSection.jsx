@@ -1,0 +1,148 @@
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import image from '../../assets/experience.jpg'
+
+const translations = {
+  ar: {
+    experience: "الخبرة",
+    years: "+10",
+    yearsText: "سنوات في تقديم حلول واستشارات.",
+    mainTitle:
+      "نقدم حلول برمجية مبتكرة واستراتيجيات تسويق فعالة مبنية على تحليل دقيق لاحتياجات العميل.",
+    description:
+      "هدفنا نسهل على أصحاب البزنس إدارة شغلهم، ونساعدهم يوصلوا لعملائهم بشكل أسرع وأذكى، ونوفر لهم تجربة احترافية من أول فكرة.",
+    leftTitle:
+      "نقدم حلول برمجية مبتكرة واستراتيجيات تسويق فعالة مبنية على تحليل دقيق لاحتياجات العميل.",
+  },
+  en: {
+    experience: "Experience",
+    years: "10+",
+    yearsText: "years of providing solutions and consulting.",
+    mainTitle:
+      "We provide innovative software solutions and effective marketing strategies based on precise analysis of client needs.",
+    description:
+      "Our goal is to facilitate business management for owners, help them reach their customers faster and smarter, and provide them with a professional experience from the first idea.",
+    leftTitle:
+      "We provide innovative software solutions and effective marketing strategies based on precise analysis of client needs.",
+  },
+};
+
+i18n.use(initReactI18next).init({
+  resources: {
+    ar: { translation: translations.ar },
+    en: { translation: translations.en },
+  },
+  lng: "ar",
+  fallbackLng: "ar",
+  interpolation: {
+    escapeValue: false,
+  },
+});
+
+const ExperienceSection = () => {
+  const { t, i18n } = useTranslation();
+  const [language, setLanguage] = useState("ar");
+
+  const toggleLanguage = () => {
+    const newLang = language === "ar" ? "en" : "ar";
+    setLanguage(newLang);
+    i18n.changeLanguage(newLang);
+  };
+
+  const isArabic = language === "ar";
+
+  return (
+    <div
+      className={`min-h-screen bg-white ${isArabic ? "rtl" : "ltr"}`}
+      dir={isArabic ? "rtl" : "ltr"}
+    >
+
+      {/* Main Section */}
+      <div className="py-12 md:py-20 px-4 md:px-8 lg:px-16">
+        <div className="max-w-7xl mx-auto">
+          {/* Top Section - Experience Badge + Image */}
+          <div className="flex flex-col lg:flex-row items-start  justify-center gap-6 lg:gap-12">
+            {/* Left Side - Experience Badge + Text */}
+            <div className="w-full lg:max-w-sm !min-h-full">
+              <div className="bg-[#103B68] flex flex-col justify-center items-center gap-0 rounded-3xl p-6 md:p-8 lg:p-12 text-white min-h-[385px]  mb-4 md:mb-6 ">
+                {/* Badge Label */}
+                <div className="">
+                  <div className="bg-white text-[#103B68] px-4 md:px-6 py-1.5 md:py-2 rounded-full font-bold text-md flex flex-col justify-center items-center md:text-sm w-fit mx-auto">
+                    {t("experience")}
+                  </div>
+                </div>
+
+                {/* Years Number */}
+                <div className="text-center mt-10 md:mt-12">
+                  <h2
+                    className="text-9xl md:text-7xl lg:text-8xl font-bold mb-3 md:mb-4"
+                    style={{
+                      fontFamily: isArabic ? "Cairo, sans-serif" : "system-ui",
+                    }}
+                  >
+                    {t("years")}
+                  </h2>
+                  <p
+                    className="text-2xl md:text-xl lg:text-2xl font-semibold leading-relaxed px-2"
+                    style={{
+                      fontFamily: isArabic ? "Cairo, sans-serif" : "system-ui",
+                    }}
+                  >
+                    {t("yearsText")}
+                  </p>
+                </div>
+              </div>
+              
+              {/* Main Title Below Badge */}
+              <div className={`${isArabic ? "text-right" : "text-left"}`}>
+                <p
+                  className="text-base md:text-lg lg:text-xl text-[#103B68] leading-relaxed font-semibold"
+                  style={{
+                    fontFamily: isArabic ? "Cairo, sans-serif" : "system-ui",
+                  }}
+                >
+                  {t("mainTitle")}
+                </p>
+              </div>
+            </div>
+
+            {/* Right Side - Image + Description */}
+            <div className="w-full lg:flex-1">
+              <div className="rounded-3xl overflow-hidden mb-4 md:mb-6 shadow-xl w-full h-56 md:h-72 lg:h-96">
+                <img
+                  src={image}
+                  alt="Business Meeting"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              
+              {/* Description Text Below Image */}
+              <div className={`${isArabic ? "text-right" : "text-left"}`}>
+                <p
+                  className="text-base md:text-lg lg:text-xl text-gray-700 leading-relaxed mb-4 md:mb-6"
+                  style={{
+                    fontFamily: isArabic ? "Cairo, sans-serif" : "system-ui",
+                  }}
+                >
+                  {t("description")}
+                </p>
+                <p
+                  className="text-sm md:text-base lg:text-lg text-gray-600 leading-relaxed"
+                  style={{
+                    fontFamily: isArabic ? "Cairo, sans-serif" : "system-ui",
+                  }}
+                >
+                  {t("leftTitle")}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ExperienceSection;

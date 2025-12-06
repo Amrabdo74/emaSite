@@ -6,7 +6,10 @@ import AboutUs from './components/AboutUs';
 import Services from './components/Services';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
+import AboutUsSection from './components/aboutUsPage/AboutUsSection';
 import Honecard from './components/Honecard';
+import MissionVisionComponent from './components/MissionVisionComponent';
+import ExperienceSection from './components/aboutUsPage/ExperinceSection';
 
 function App() {
   return (
@@ -18,6 +21,9 @@ function App() {
       <AboutUs />
       <Services />
       <FAQ />
+      <AboutUsSection />
+      <MissionVisionComponent />
+      <ExperienceSection />
       <Footer />
     </div>
   );
