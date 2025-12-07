@@ -49,7 +49,7 @@ const ServicesCards = () => {
   const currentLanguage = i18n.language === 'ar' ? "ar" : "en";
   return (
     <div 
-      className="min-h-screen p-8 bg-cover bg-center bg-no-repeat"
+      className="min-h-screen p-8 bg-cover bg-center bg-no-repeat overflow-hidden"
       dir={currentLanguage === "ar" ? "rtl" : "ltr"}
       style={{
         
