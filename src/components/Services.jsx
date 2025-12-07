@@ -4,6 +4,7 @@ import inshaey from '../assets/inshaey.svg'
 import marketing from '../assets/marketing.svg'
 import tarakhis from '../assets/tarakhis.svg'
 import web from '../assets/web.svg'
+import { useTranslation } from 'react-i18next';
 
 const ServicesCards = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -44,8 +45,8 @@ const ServicesCards = () => {
   ];
 
   // يمكنك تغيير اللغة من هنا
-  const currentLanguage = "ar"; // أو "en"
-
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language === 'ar' ? "ar" : "en";
   return (
     <div 
       className="min-h-screen p-8 bg-cover bg-center bg-no-repeat"

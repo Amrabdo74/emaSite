@@ -18,7 +18,9 @@ function Header() {
       <div className="hidden md:flex w-full h-20">
         {/* Right: Blue half with logo */}
         <div className="w-1/2 bg-primary flex items-center justify-center">
+          <Link to="/">
           <img src={logo} alt="logo" className="h-14" />
+          </Link>
         </div>
 
         {/* Left: White half with nav + buttons */}
