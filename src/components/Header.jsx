@@ -94,10 +94,10 @@ function Header() {
               </Link>
               <Link to="/about" className="py-2 border-b" onClick={() => setIsMenuOpen(false)}>{t('header.about')}</Link>
               <Link to="/contact" className="py-2 border-b" onClick={() => setIsMenuOpen(false)}>{t('header.contact')}</Link>
-              <div className="flex gap-2 mt-3">
+              {/* <div className="flex gap-2 mt-3">
                 <button className="flex-1 px-4 py-2 bg-screens text-white rounded">{t('header.login')}</button>
                 <button className="flex-1 px-4 py-2 bg-screens text-white rounded">{t('header.register')}</button>
-              </div>
+              </div> */}
             </nav>
           </div>
         )}
