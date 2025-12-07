@@ -17,8 +17,8 @@ function Footer() {
   const pages = [
     { name: t('footer.pages.home'), href: "/" },
     { name: t('footer.pages.about'), href: "/about" },
-    { name: t('footer.pages.services'), href: "/#services" },
-    { name: t('footer.pages.contact'), href: "/#contact" }
+    { name: t('footer.pages.services'), href: "/" },
+    { name: t('footer.pages.contact'), href: "/contact" }
   ];
 
   const aboutText = t('footer.about');
@@ -67,10 +67,16 @@ function Footer() {
                       <Link
                         to={page.href}
                         className="text-white hover:text-screens transition-colors text-base whitespace-nowrap"
+                        onClick={(e) => {
+                          if (page.name === t('footer.pages.services') && window.location.pathname === '/') {
+                            e.preventDefault();
+                            document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+                          }
+                        }}
                       >
                         {page.name}
                       </Link>
-                      <span className="w-4 h-4 bg-screens flex-shrink-0"></span>
+                      <span className="w-4 h-4 bg-screens shrink-0"></span>
                     </li>
                   ))}
                 </ul>
@@ -89,7 +95,7 @@ function Footer() {
                         className="flex items-center justify-end gap-3 text-white hover:text-screens transition-colors"
                       >
                         <span className="text-base whitespace-nowrap">{social.name}</span>
-                        <div className="w-10 h-10 bg-white rounded flex items-center justify-center flex-shrink-0">
+                        <div className="w-10 h-10 bg-white rounded flex items-center justify-center shrink-0">
                           <svg className="w-5 h-5 fill-primary" viewBox="0 0 24 24">
                             <path d={social.icon} />
                           </svg>

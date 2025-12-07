@@ -26,9 +26,14 @@ function Header() {
           {/* Links (aligned left side of the white half) */}
           <nav className="flex items-center gap-6 text-primary font-medium">
             <Link to="/" className="hover:text-screens transition">{t('header.home')}</Link>
-            <Link to="/#services" className="hover:text-screens transition">{t('header.services')}</Link>
+            <Link to="/" onClick={(e) => {
+              if (window.location.pathname === '/') {
+                e.preventDefault();
+                document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+              }
+            }} className="hover:text-screens transition">{t('header.services')}</Link>
             <Link to="/about" className="hover:text-screens transition">{t('header.about')}</Link>
-            <Link to="/#contact" className="hover:text-screens transition">{t('header.contact')}</Link>
+            <Link to="/contact" className="hover:text-screens transition">{t('header.contact')}</Link>
           </nav>
 
           {/* Buttons (on the far left inside the white half) */}
@@ -70,9 +75,21 @@ function Header() {
           <div className="px-4 pb-4">
             <nav className="flex flex-col gap-3 text-primary">
               <Link to="/" className="py-2 border-b" onClick={() => setIsMenuOpen(false)}>{t('header.home')}</Link>
-              <Link to="/#services" className="py-2 border-b" onClick={() => setIsMenuOpen(false)}>{t('header.services')}</Link>
+              <Link 
+                to="/" 
+                className="py-2 border-b" 
+                onClick={(e) => {
+                  setIsMenuOpen(false);
+                  if (window.location.pathname === '/') {
+                    e.preventDefault();
+                    document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+              >
+                {t('header.services')}
+              </Link>
               <Link to="/about" className="py-2 border-b" onClick={() => setIsMenuOpen(false)}>{t('header.about')}</Link>
-              <Link to="/#contact" className="py-2 border-b" onClick={() => setIsMenuOpen(false)}>{t('header.contact')}</Link>
+              <Link to="/contact" className="py-2 border-b" onClick={() => setIsMenuOpen(false)}>{t('header.contact')}</Link>
               <div className="flex gap-2 mt-3">
                 <button className="flex-1 px-4 py-2 bg-screens text-white rounded">{t('header.login')}</button>
                 <button className="flex-1 px-4 py-2 bg-screens text-white rounded">{t('header.register')}</button>

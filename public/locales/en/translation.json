@@ -93,6 +93,18 @@
     "description": "Our goal is to facilitate business management for owners, help them reach their customers faster and smarter, and provide them with a professional experience from the first idea.",
     "leftTitle": "We provide innovative software solutions and effective marketing strategies based on precise analysis of client needs."
   },
+  "contact": {
+    "contactUs": "Contact Us",
+    "description": "We're here to help. Send us a message and we'll get back to you as soon as possible.",
+    "phoneNumber": "Phone Number",
+    "emailAddress": "Email Address",
+    "location": "Location",
+    "faxAddress": "Fax Address",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send"
+  },
   "footer": {
     "about": "A leading team in website design, programming, and electronic marketing, started its services in 2013, and provided its technical services to a large number of clients, institutions, centers, and bodies.",
     "sitePages": "Site Pages",

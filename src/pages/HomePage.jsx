@@ -12,7 +12,9 @@ export default function HomePage() {
       <Honecard />
       <ContactInfo />
       <AboutUs />
-      <Services />
+      <div id="services">
+        <Services />
+      </div>
       <FAQ />
     </div>
   );
