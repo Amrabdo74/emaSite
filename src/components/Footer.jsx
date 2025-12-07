@@ -40,7 +40,7 @@ function Footer() {
         }}
       />
       
-      <div className="container mx-auto px-8 py-16 pt-75 relative z-10">
+      <div className="container mx-auto px-8 max-md:px-0 py-16 pt-75 relative z-10">
         {/* FLEX مش GRID */}
         <div className="flex flex-col md:flex-row-reverse lg:flex-row-reverse gap-16">
 
@@ -54,16 +54,18 @@ function Footer() {
 
           {/* Links and Social Media - جنب بعض في كل الشاشات */}
           <div className="w-full md:w-[40%] lg:w-[30%]">
-            <div className="flex flex-row gap-6 justify-between">
+            <div className="flex flex-row gap-6  max-md:gap-2 justify-between">
               
               {/* Site Pages */}
-              <div className="text-right">
+              <div className="">
                 <h3 className="text-xl font-bold mb-6 px-4 py-2 bg-screens inline-block rounded whitespace-nowrap">
                   {t('footer.sitePages')}
                 </h3>
                 <ul className="space-y-3 mt-6">
                   {pages.map((page, index) => (
-                    <li key={index} className="flex items-center justify-end gap-2">
+                    <li key={index} className="flex items-center  gap-2">
+                      <span className="w-4 h-4 bg-screens shrink-0"></span>
+
                       <Link
                         to={page.href}
                         className="text-white hover:text-screens transition-colors text-base whitespace-nowrap"
@@ -76,14 +78,13 @@ function Footer() {
                       >
                         {page.name}
                       </Link>
-                      <span className="w-4 h-4 bg-screens shrink-0"></span>
                     </li>
                   ))}
                 </ul>
               </div>
 
               {/* Social Media */}
-              <div className="text-right">
+              <div className="">
                 <h3 className="text-xl font-bold mb-6 px-4 py-2 bg-screens inline-block rounded whitespace-nowrap">
                   {t('footer.socialMedia')}
                 </h3>
@@ -92,14 +93,14 @@ function Footer() {
                     <li key={index}>
                       <a 
                         href="#" 
-                        className="flex items-center justify-end gap-3 text-white hover:text-screens transition-colors"
+                        className="flex items-center  gap-3 text-white hover:text-screens transition-colors"
                       >
-                        <span className="text-base whitespace-nowrap">{social.name}</span>
                         <div className="w-10 h-10 bg-white rounded flex items-center justify-center shrink-0">
                           <svg className="w-5 h-5 fill-primary" viewBox="0 0 24 24">
                             <path d={social.icon} />
                           </svg>
                         </div>
+                        <span className="text-base whitespace-nowrap">{social.name}</span>
                       </a>
                     </li>
                   ))}

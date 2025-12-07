@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import faqImage from '../assets/faqImage.png'
 import { FaPlus } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 function FAQ() {
   const [openIndex, setOpenIndex] = useState(0);
-
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language === 'ar' ? "ar" : "en";
   // يمكنك تغيير اللغة من هنا
-  const currentLanguage = "ar"; // أو "en"
 
   const faqs = [
     {

@@ -4,6 +4,7 @@ import inshaey from '../assets/inshaey.svg'
 import marketing from '../assets/marketing.svg'
 import tarakhis from '../assets/tarakhis.svg'
 import web from '../assets/web.svg'
+import { useTranslation } from 'react-i18next';
 
 const ServicesCards = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -44,11 +45,11 @@ const ServicesCards = () => {
   ];
 
   // يمكنك تغيير اللغة من هنا
-  const currentLanguage = "ar"; // أو "en"
-
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language === 'ar' ? "ar" : "en";
   return (
     <div 
-      className="min-h-screen p-8 bg-cover bg-center bg-no-repeat"
+      className="min-h-screen p-8 bg-cover bg-center bg-no-repeat overflow-hidden"
       dir={currentLanguage === "ar" ? "rtl" : "ltr"}
       style={{
         
@@ -85,7 +86,7 @@ const ServicesCards = () => {
             `}
             
           >
-            <div className="flex items-center justify-start flex-row-reverse gap-3">
+            <div className="flex items-center justify-start flex-row-reverse max-md:flex-col-reverse gap-3">
               {/* Text Content */}
               <div className="flex-1" style={{ textAlign: currentLanguage === "ar" ? "right" : "left" }}>
                 <h2 className={`

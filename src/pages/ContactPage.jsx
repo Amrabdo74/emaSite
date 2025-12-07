@@ -65,9 +65,9 @@ const ContactPage = () => {
                 <p>
                   <Link 
                     className="text-primary hover:text-screens transition-colors" 
-                    to="tel:01098978273"
+                    to="tel:01021798849"
                   >
-                    01098978273
+                    01021798849
                   </Link>
                 </p>
               </div>
@@ -127,9 +127,9 @@ const ContactPage = () => {
                 <p>
                   <Link 
                     className="text-primary hover:text-screens transition-colors" 
-                    to="tel:01098978273"
+                    to="tel:01021798849"
                   >
-                    01098978273
+                    01021798849
                   </Link>
                 </p>
               </div>

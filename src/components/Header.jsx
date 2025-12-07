@@ -18,7 +18,9 @@ function Header() {
       <div className="hidden md:flex w-full h-20">
         {/* Right: Blue half with logo */}
         <div className="w-1/2 bg-primary flex items-center justify-center">
+          <Link to="/">
           <img src={logo} alt="logo" className="h-14" />
+          </Link>
         </div>
 
         {/* Left: White half with nav + buttons */}
@@ -48,7 +50,9 @@ function Header() {
         <div className="flex items-center justify-between px-4 py-3">
           {/* Small blue logo block at right */}
           <div className="bg-primary p-2 rounded flex items-center justify-center">
+            <Link to="/">
             <img src={logo} alt="logo" className="h-10" />
+            </Link>
           </div>
 
           {/* Title / empty spacer to keep logo on right */}
@@ -90,10 +94,10 @@ function Header() {
               </Link>
               <Link to="/about" className="py-2 border-b" onClick={() => setIsMenuOpen(false)}>{t('header.about')}</Link>
               <Link to="/contact" className="py-2 border-b" onClick={() => setIsMenuOpen(false)}>{t('header.contact')}</Link>
-              <div className="flex gap-2 mt-3">
+              {/* <div className="flex gap-2 mt-3">
                 <button className="flex-1 px-4 py-2 bg-screens text-white rounded">{t('header.login')}</button>
                 <button className="flex-1 px-4 py-2 bg-screens text-white rounded">{t('header.register')}</button>
-              </div>
+              </div> */}
             </nav>
           </div>
         )}
