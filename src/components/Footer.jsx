@@ -40,7 +40,7 @@ function Footer() {
         }}
       />
       
-      <div className="container mx-auto px-8 py-16 pt-75 relative z-10">
+      <div className="container mx-auto px-8 max-md:px-0 py-16 pt-75 relative z-10">
         {/* FLEX مش GRID */}
         <div className="flex flex-col md:flex-row-reverse lg:flex-row-reverse gap-16">
 

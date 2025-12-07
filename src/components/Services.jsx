@@ -86,7 +86,7 @@ const ServicesCards = () => {
             `}
             
           >
-            <div className="flex items-center justify-start flex-row-reverse gap-3">
+            <div className="flex items-center justify-start flex-row-reverse max-md:flex-col-reverse gap-3">
               {/* Text Content */}
               <div className="flex-1" style={{ textAlign: currentLanguage === "ar" ? "right" : "left" }}>
                 <h2 className={`

@@ -50,7 +50,9 @@ function Header() {
         <div className="flex items-center justify-between px-4 py-3">
           {/* Small blue logo block at right */}
           <div className="bg-primary p-2 rounded flex items-center justify-center">
+            <Link to="/">
             <img src={logo} alt="logo" className="h-10" />
+            </Link>
           </div>
 
           {/* Title / empty spacer to keep logo on right */}
