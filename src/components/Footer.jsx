@@ -56,6 +56,7 @@ function Footer() {
           <div className="w-full md:w-[40%] lg:w-[30%]">
             <div className="flex flex-row gap-6  max-md:gap-2 justify-between">
               
+              
               {/* Site Pages */}
               <div className="">
                 <h3 className="text-xl font-bold mb-6 px-4 py-2 bg-screens inline-block rounded whitespace-nowrap">
