@@ -1,57 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
 import image from '../../assets/experience.jpg'
-
-const translations = {
-  ar: {
-    experience: "الخبرة",
-    years: "+10",
-    yearsText: "سنوات في تقديم حلول واستشارات.",
-    mainTitle:
-      "نقدم حلول برمجية مبتكرة واستراتيجيات تسويق فعالة مبنية على تحليل دقيق لاحتياجات العميل.",
-    description:
-      "هدفنا نسهل على أصحاب البزنس إدارة شغلهم، ونساعدهم يوصلوا لعملائهم بشكل أسرع وأذكى، ونوفر لهم تجربة احترافية من أول فكرة.",
-    leftTitle:
-      "نقدم حلول برمجية مبتكرة واستراتيجيات تسويق فعالة مبنية على تحليل دقيق لاحتياجات العميل.",
-  },
-  en: {
-    experience: "Experience",
-    years: "10+",
-    yearsText: "years of providing solutions and consulting.",
-    mainTitle:
-      "We provide innovative software solutions and effective marketing strategies based on precise analysis of client needs.",
-    description:
-      "Our goal is to facilitate business management for owners, help them reach their customers faster and smarter, and provide them with a professional experience from the first idea.",
-    leftTitle:
-      "We provide innovative software solutions and effective marketing strategies based on precise analysis of client needs.",
-  },
-};
-
-i18n.use(initReactI18next).init({
-  resources: {
-    ar: { translation: translations.ar },
-    en: { translation: translations.en },
-  },
-  lng: "ar",
-  fallbackLng: "ar",
-  interpolation: {
-    escapeValue: false,
-  },
-});
 
 const ExperienceSection = () => {
   const { t, i18n } = useTranslation();
-  const [language, setLanguage] = useState("ar");
-
-  const toggleLanguage = () => {
-    const newLang = language === "ar" ? "en" : "ar";
-    setLanguage(newLang);
-    i18n.changeLanguage(newLang);
-  };
-
-  const isArabic = language === "ar";
+  const isArabic = i18n.language === "ar";
 
   return (
     <div
@@ -70,7 +23,7 @@ const ExperienceSection = () => {
                 {/* Badge Label */}
                 <div className="">
                   <div className="bg-white text-[#103B68] px-4 md:px-6 py-1.5 md:py-2 rounded-full font-bold text-md flex flex-col justify-center items-center md:text-sm w-fit mx-auto">
-                    {t("experience")}
+                    {t("experience.experience")}
                   </div>
                 </div>
 
@@ -82,7 +35,7 @@ const ExperienceSection = () => {
                       fontFamily: isArabic ? "Cairo, sans-serif" : "system-ui",
                     }}
                   >
-                    {t("years")}
+                    {t("experience.years")}
                   </h2>
                   <p
                     className="text-2xl md:text-xl lg:text-2xl font-semibold leading-relaxed px-2"
@@ -90,7 +43,7 @@ const ExperienceSection = () => {
                       fontFamily: isArabic ? "Cairo, sans-serif" : "system-ui",
                     }}
                   >
-                    {t("yearsText")}
+                    {t("experience.yearsText")}
                   </p>
                 </div>
               </div>
@@ -103,7 +56,7 @@ const ExperienceSection = () => {
                     fontFamily: isArabic ? "Cairo, sans-serif" : "system-ui",
                   }}
                 >
-                  {t("mainTitle")}
+                  {t("experience.mainTitle")}
                 </p>
               </div>
             </div>
@@ -126,7 +79,7 @@ const ExperienceSection = () => {
                     fontFamily: isArabic ? "Cairo, sans-serif" : "system-ui",
                   }}
                 >
-                  {t("description")}
+                  {t("experience.description")}
                 </p>
                 <p
                   className="text-sm md:text-base lg:text-lg text-gray-600 leading-relaxed"
@@ -134,7 +87,7 @@ const ExperienceSection = () => {
                     fontFamily: isArabic ? "Cairo, sans-serif" : "system-ui",
                   }}
                 >
-                  {t("leftTitle")}
+                  {t("experience.leftTitle")}
                 </p>
               </div>
             </div>

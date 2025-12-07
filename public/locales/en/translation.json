@@ -71,6 +71,28 @@
     },
     "imagePlaceholder": "Devices Image"
   },
+  "mission": {
+    "title": "Mission",
+    "text": "We are the first trusted partner in marketing for companies and business owners, helping them build a strong digital presence that achieves real growth and sustainability in the market"
+  },
+  "vision": {
+    "title": "Vision",
+    "text": "We provide innovative software solutions and effective marketing strategies based on precise analysis of client needs. Our goal is to facilitate business management for owners, help them reach the world more professionally, faster and smarter, and provide them with a professional experience from the first idea to execution and results."
+  },
+  "aboutUsSection": {
+    "aboutUs": "About Our Company",
+    "mainTitle": "EIMA Team",
+    "subTitle": "For Technology Consulting",
+    "description": "Our goal is to achieve the best technological results for our clients through well-studied strategies"
+  },
+  "experience": {
+    "experience": "Experience",
+    "years": "10+",
+    "yearsText": "years of providing solutions and consulting.",
+    "mainTitle": "We provide innovative software solutions and effective marketing strategies based on precise analysis of client needs.",
+    "description": "Our goal is to facilitate business management for owners, help them reach their customers faster and smarter, and provide them with a professional experience from the first idea.",
+    "leftTitle": "We provide innovative software solutions and effective marketing strategies based on precise analysis of client needs."
+  },
   "footer": {
     "about": "A leading team in website design, programming, and electronic marketing, started its services in 2013, and provided its technical services to a large number of clients, institutions, centers, and bodies.",
     "sitePages": "Site Pages",

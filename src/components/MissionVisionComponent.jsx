@@ -1,50 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-
-// تهيئة i18n
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-
-const translations = {
-  ar: {
-    mission: 'الهدف',
-    missionText: 'نحن نكون الشريك الثقة والتسويق الأول للشركات وأصحاب الأعمال، ونساعدهم بنبنو وجود رقمي قوي يحقق نمو حقيقي واستدامة في السوق',
-    vision: 'الرسالة',
-    visionText: 'نقدم حلول برمجية مبتكرة واستراتيجيات تسويق فعالة ومبنية على تحليل دقيق لاحتياجات العميل. هدفنا نسهل على أصحاب البزنس إدارة شغلهم، ونساعدهم يوصلوا العالم لائقهم بشكل أسرع وأذكى، ونوفر لهم تجربة احترافية من أول مكرة لحد التنفيذ والنتيجة.'
-  },
-  en: {
-    mission: 'Mission',
-    missionText: 'We are the first trusted partner in marketing for companies and business owners, helping them build a strong digital presence that achieves real growth and sustainability in the market',
-    vision: 'Vision',
-    visionText: 'We provide innovative software solutions and effective marketing strategies based on precise analysis of client needs. Our goal is to facilitate business management for owners, help them reach the world more professionally, faster and smarter, and provide them with a professional experience from the first idea to execution and results.'
-  }
-};
-
-i18n
-  .use(initReactI18next)
-  .init({
-    resources: {
-      ar: { translation: translations.ar },
-      en: { translation: translations.en }
-    },
-    lng: 'ar',
-    fallbackLng: 'ar',
-    interpolation: {
-      escapeValue: false
-    }
-  });
 
 const MissionVisionComponent = () => {
   const { t, i18n } = useTranslation();
-  const [language, setLanguage] = useState('ar');
-
-  const toggleLanguage = () => {
-    const newLang = language === 'ar' ? 'en' : 'ar';
-    setLanguage(newLang);
-    i18n.changeLanguage(newLang);
-  };
-
-  const isArabic = language === 'ar';
+  const isArabic = i18n.language === 'ar';
 
   return (
     <div className={`min-h-screen bg-white ${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
@@ -70,12 +29,12 @@ const MissionVisionComponent = () => {
                 
                 {/* Mission Title */}
                 <h2 className="text-3xl md:text-4xl font-bold text-[#103B68] mb-6">
-                  {t('mission')}
+                  {t('mission.title')}
                 </h2>
                 
                 {/* Mission Text */}
                 <p className="text-gray-700 text-base md:text-lg leading-relaxed" style={{ fontFamily: isArabic ? 'Cairo, sans-serif' : 'system-ui' }}>
-                  {t('missionText')}
+                  {t('mission.text')}
                 </p>
               </div>
             </div>
@@ -102,12 +61,12 @@ const MissionVisionComponent = () => {
                 
                 {/* Vision Title */}
                 <h2 className="text-3xl md:text-4xl font-bold text-[#103B68] mb-6">
-                  {t('vision')}
+                  {t('vision.title')}
                 </h2>
                 
                 {/* Vision Text */}
                 <p className="text-gray-700 text-base md:text-lg leading-relaxed" style={{ fontFamily: isArabic ? 'Cairo, sans-serif' : 'system-ui' }}>
-                  {t('visionText')}
+                  {t('vision.text')}
                 </p>
               </div>
             </div>

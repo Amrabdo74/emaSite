@@ -20,6 +20,9 @@ i18n
       order: ['querystring', 'cookie', 'localStorage', 'navigator'],
       caches: ['cookie'],
     },
+    react: {
+      useSuspense: true,
+    },
   });
 
 // Add direction detection
@@ -27,6 +30,11 @@ i18n.on('languageChanged', (lng) => {
   document.documentElement.dir = lng === 'ar' ? 'rtl' : 'ltr';
   document.documentElement.lang = lng;
 });
+
+// Set initial direction
+const currentLang = i18n.language || 'ar';
+document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+document.documentElement.lang = currentLang;
 
 export default i18n;
 

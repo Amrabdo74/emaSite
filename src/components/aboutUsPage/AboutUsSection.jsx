@@ -1,50 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
 import image from '../../assets/aboutHeroImage.png'
 import bg from '../../assets/aboutHeroBg.png'
 
-const translations = {
-  ar: {
-    aboutUs: 'عن شركتنا',
-    mainTitle: 'فريق إيــــــــــــــما',
-    subTitle: 'للاستشارات التكنولوجيه',
-    description: 'هدفنا هو تحقيق أفضل النتائج التكنولوجيه لعملائنا عبر إستراتيجيات مدروسة'
-  },
-  en: {
-    aboutUs: 'About Our Company',
-    mainTitle: 'EIMA Team',
-    subTitle: 'For Technology Consulting',
-    description: 'Our goal is to achieve the best technological results for our clients through well-studied strategies'
-  }
-};
-
-i18n
-  .use(initReactI18next)
-  .init({
-    resources: {
-      ar: { translation: translations.ar },
-      en: { translation: translations.en }
-    },
-    lng: 'ar',
-    fallbackLng: 'ar',
-    interpolation: {
-      escapeValue: false
-    }
-  });
-
 const AboutUsSection = () => {
   const { t, i18n } = useTranslation();
-  const [language, setLanguage] = useState('ar');
-
-  const toggleLanguage = () => {
-    const newLang = language === 'ar' ? 'en' : 'ar';
-    setLanguage(newLang);
-    i18n.changeLanguage(newLang);
-  };
-
-  const isArabic = language === 'ar';
+  const isArabic = i18n.language === 'ar';
 
   return (
     <div className={`min-h-screen bg-white ${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
@@ -75,7 +36,7 @@ const AboutUsSection = () => {
                     fontFamily: isArabic ? 'Cairo, sans-serif' : 'system-ui'
                   }}
                 >
-                  {t('aboutUs')}
+                  {t('aboutUsSection.aboutUs')}
                   <span 
                     className={`absolute top-1/2 -translate-y-1/2 w-16 md:w-20 h-1 bg-[#FAA617] ${isArabic ? 'right-full mr-3' : 'left-full ml-3'}`}
                   ></span>
@@ -89,7 +50,7 @@ const AboutUsSection = () => {
                   fontFamily: isArabic ? 'Cairo, sans-serif' : 'system-ui'
                 }}
               >
-                {t('mainTitle')}
+                {t('aboutUsSection.mainTitle')}
               </h1>
 
               {/* Subtitle */}
@@ -99,7 +60,7 @@ const AboutUsSection = () => {
                   fontFamily: isArabic ? 'Cairo, sans-serif' : 'system-ui'
                 }}
               >
-                {t('subTitle')}
+                {t('aboutUsSection.subTitle')}
               </h2>
 
               {/* Description */}
@@ -109,7 +70,7 @@ const AboutUsSection = () => {
                   fontFamily: isArabic ? 'Cairo, sans-serif' : 'system-ui'
                 }}
               >
-                {t('description')}
+                {t('aboutUsSection.description')}
               </p>
             </div>
 
