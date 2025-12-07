@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import logo from "../assets/footerLogo.svg";
 
@@ -24,10 +25,10 @@ function Header() {
         <div className="w-1/2 bg-white flex items-center justify-between px-6">
           {/* Links (aligned left side of the white half) */}
           <nav className="flex items-center gap-6 text-primary font-medium">
-            <a href="#home" className="hover:text-screens transition">{t('header.home')}</a>
-            <a href="#services" className="hover:text-screens transition">{t('header.services')}</a>
-            <a href="#about" className="hover:text-screens transition">{t('header.about')}</a>
-            <a href="#contact" className="hover:text-screens transition">{t('header.contact')}</a>
+            <Link to="/" className="hover:text-screens transition">{t('header.home')}</Link>
+            <Link to="/#services" className="hover:text-screens transition">{t('header.services')}</Link>
+            <Link to="/about" className="hover:text-screens transition">{t('header.about')}</Link>
+            <Link to="/#contact" className="hover:text-screens transition">{t('header.contact')}</Link>
           </nav>
 
           {/* Buttons (on the far left inside the white half) */}
@@ -68,10 +69,10 @@ function Header() {
         {isMenuOpen && (
           <div className="px-4 pb-4">
             <nav className="flex flex-col gap-3 text-primary">
-              <a href="#home" className="py-2 border-b">{t('header.home')}</a>
-              <a href="#services" className="py-2 border-b">{t('header.services')}</a>
-              <a href="#about" className="py-2 border-b">{t('header.about')}</a>
-              <a href="#contact" className="py-2 border-b">{t('header.contact')}</a>
+              <Link to="/" className="py-2 border-b" onClick={() => setIsMenuOpen(false)}>{t('header.home')}</Link>
+              <Link to="/#services" className="py-2 border-b" onClick={() => setIsMenuOpen(false)}>{t('header.services')}</Link>
+              <Link to="/about" className="py-2 border-b" onClick={() => setIsMenuOpen(false)}>{t('header.about')}</Link>
+              <Link to="/#contact" className="py-2 border-b" onClick={() => setIsMenuOpen(false)}>{t('header.contact')}</Link>
               <div className="flex gap-2 mt-3">
                 <button className="flex-1 px-4 py-2 bg-screens text-white rounded">{t('header.login')}</button>
                 <button className="flex-1 px-4 py-2 bg-screens text-white rounded">{t('header.register')}</button>

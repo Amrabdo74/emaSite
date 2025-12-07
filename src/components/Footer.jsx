@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import logo from "../assets/footerLogo.svg";
 import footerBg from "../assets/footerBg.png";
@@ -14,10 +15,10 @@ function Footer() {
   ];
 
   const pages = [
-    { name: t('footer.pages.home'), href: "#home" },
-    { name: t('footer.pages.about'), href: "#about" },
-    { name: t('footer.pages.services'), href: "#services" },
-    { name: t('footer.pages.contact'), href: "#contact" }
+    { name: t('footer.pages.home'), href: "/" },
+    { name: t('footer.pages.about'), href: "/about" },
+    { name: t('footer.pages.services'), href: "/#services" },
+    { name: t('footer.pages.contact'), href: "/#contact" }
   ];
 
   const aboutText = t('footer.about');
@@ -63,12 +64,12 @@ function Footer() {
                 <ul className="space-y-3 mt-6">
                   {pages.map((page, index) => (
                     <li key={index} className="flex items-center justify-end gap-2">
-                      <a
-                        href={page.href}
+                      <Link
+                        to={page.href}
                         className="text-white hover:text-screens transition-colors text-base whitespace-nowrap"
                       >
                         {page.name}
-                      </a>
+                      </Link>
                       <span className="w-4 h-4 bg-screens flex-shrink-0"></span>
                     </li>
                   ))}
