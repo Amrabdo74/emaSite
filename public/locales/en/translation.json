@@ -11,6 +11,9 @@
   "hero": {
     "title": "Welcome to Eima.",
     "description": "We offer you everything you need to develop your business, from design, programming, marketing, and licenses.",
+    "mainTitle": "Get a technical experience",
+    "mainDescription": "Empowering you to make better technical decisions, We truly are professional solution planners. We offer you comprehensive services including website design and programming, smart application development, advanced digital marketing, and licensing services. Our professional team has been working since 2013 to ensure you get the best technical solutions that suit your needs and help you grow and develop in the world of technology.",
+    "exploreMore": "Explore More",
     "learnMore": "Learn More",
     "ourServices": "Our Services",
     "contactUs": "Contact Us",

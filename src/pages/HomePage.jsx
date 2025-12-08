@@ -1,4 +1,4 @@
-import Hero from '../components/Hero';
+import NewHeroSection from '../components/NewHeroSection';
 import Honecard from '../components/Honecard';
 import ContactInfo from '../components/ContactInfo';
 import AboutUs from '../components/AboutUs';
@@ -8,7 +8,7 @@ import FAQ from '../components/FAQ';
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      <Hero />
+      <NewHeroSection />
       <Honecard />
       <ContactInfo />
       <AboutUs />
