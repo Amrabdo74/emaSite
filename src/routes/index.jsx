@@ -3,6 +3,8 @@ import RootLayout from '../layouts/RootLayout';
 import HomePage from '../pages/HomePage';
 import AboutPage from '../pages/AboutPage';
 import ContactPage from '../pages/ContactPage';
+import ServicesPage from '../pages/ServicesPage';
+import CareersPage from '../pages/CareersPage';
 import NotFoundPage from '../pages/NotFoundPage';
 
 export const router = createBrowserRouter([
@@ -21,6 +23,14 @@ export const router = createBrowserRouter([
       {
         path: 'contact',
         element: <ContactPage />,
+      },
+      {
+        path: 'services',
+        element: <ServicesPage />,
+      },
+      {
+        path: 'careers',
+        element: <CareersPage />,
       },
     ],
   },

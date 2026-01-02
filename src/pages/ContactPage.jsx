@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { FaAddressBook, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import { FaSquarePhone } from "react-icons/fa6";
@@ -7,246 +7,379 @@ import { FaSquarePhone } from "react-icons/fa6";
 const ContactPage = () => {
   const { t, i18n } = useTranslation();
   const isArabic = i18n.language === 'ar';
+  const location = useLocation();
 
-  // Form state
+  const services = [
+    { id: 1, titleAr: "تطوير المواقع والتطبيقات", titleEn: "Website & App Development" },
+    { id: 2, titleAr: "الدعاية والإعلان والتسويق الإلكتروني", titleEn: "Advertising & Digital Marketing" },
+    { id: 3, titleAr: "التصميم المعماري والإنشائي", titleEn: "Architectural & Structural Design" },
+    { id: 4, titleAr: "قسم الرخص", titleEn: "Licensing Department" }
+  ];
+
+  const positions = [
+    { id: 1, titleAr: "مطور ويب", titleEn: "Web Developer" },
+    { id: 2, titleAr: "مصمم جرافيك", titleEn: "Graphic Designer" },
+    { id: 3, titleAr: "مسوق رقمي", titleEn: "Digital Marketer" },
+    { id: 4, titleAr: "مهندس معماري", titleEn: "Architect" },
+    { id: 5, titleAr: "مدير مشروع", titleEn: "Project Manager" },
+    { id: 6, titleAr: "أخرى", titleEn: "Other" }
+  ];
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    message: ''
+    message: '',
+    contactType: '',
+    position: '',
+    service: '',
+    cvFile: null
   });
 
-  const [focused, setFocused] = useState({
-    name: false,
-    email: false,
-    message: false
-  });
+  useEffect(() => {
+    if (location.state?.message) {
+      const serviceTitle = location.state.service || location.state.message.split(':')[1]?.trim() || '';
+      setFormData(prev => ({
+        ...prev,
+        message: location.state.message,
+        contactType: 'service',
+        service: serviceTitle
+      }));
+    }
+  }, [location.state]);
 
   const handleChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData(prev => {
+      const updated = { ...prev, [field]: value };
+      if (field === 'contactType') {
+        updated.position = '';
+        updated.service = '';
+        updated.cvFile = null;
+      }
+      return updated;
+    });
   };
 
-  const handleFocus = (field) => {
-    setFocused(prev => ({ ...prev, [field]: true }));
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData(prev => ({ ...prev, cvFile: file }));
+    }
   };
 
-  const handleBlur = (field) => {
-    setFocused(prev => ({ ...prev, [field]: false }));
-  };
+  const socialMedia = [
+    { name: t('footer.social.facebook'), icon: "M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" },
+    { name: t('footer.social.whatsapp'), icon: "M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" },
+    { name: t('footer.social.twitter'), icon: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" },
+    { name: t('footer.social.instagram'), icon: "M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" },
+    { name: t('footer.social.youtube'), icon: "M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" }
+  ];
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Handle form submission
-    console.log("Form submitted.");
+    console.log("Form submitted:", formData);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b mt-12 from-gray-50 to-white py-12">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
-          {/* Contact Info Section - Left Column */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-          <div className="col-span-1 md:col-span-2 text-start flex flex-col items-start justify-start">
-            <h2 className="text-4xl font-bold text-primary mb-4 text-center">{t('contact.contactUs')}</h2>
-            <p className="text-gray-700 mb-6 leading-relaxed text-lg">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {/* Hero Section */}
+      <section 
+        className="relative py-30 md:py-45 overflow-hidden min-h-[400px] flex items-center"
+        style={{
+          backgroundImage: `url(https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1920&h=1080&fit=crop)`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/80 to-primary/90"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-lg mb-6">
+              {t('contact.contactUs')}
+            </h1>
+            <p className="text-lg md:text-xl text-white/95 leading-relaxed drop-shadow-md">
               {t('contact.description')}
             </p>
           </div>
-            {/* Phone Card */}
-            <div className="flex items-start max-h-fit gap-4 p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition">
-              <div className="bg-primary p-4 rounded-full shrink-0">
-                <div className="  rounded-full">
+          <div className="flex flex-wrap justify-center my-6 gap-3">
+            {socialMedia.map((social, index) => (
+              <a
+                key={index}
+                href="#"
+                className="group w-12 h-12 bg-white/10 hover:bg-screens rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
+                aria-label={social.name}
+              >
+                <svg className="w-5 h-5 fill-white group-hover:fill-primary transition-colors" viewBox="0 0 24 24">
+                  <path d={social.icon} />
+                </svg>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Content */}
+      <div className="py-17">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            {/* Contact Info Section */}
+            <div className="lg:sticky lg:top-24 lg:self-start">
+              <div className="mb-6">
+                <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">{t('contact.contactInfo')}</h2>
+                <p className="text-gray-600 text-lg">{t('contact.contactInfoDescription')}</p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
+
+              {/* Contact Cards */}
+              <div className="flex items-start gap-3 p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow h-24">
+                <div className="bg-primary p-3 rounded-lg shrink-0">
                   <FaSquarePhone className="text-white text-xl" />
                 </div>
-              </div>
-              <div className={isArabic ? 'text-right' : 'text-left'}>
-                <p className="font-semibold text-primary mb-1">{t('contact.phoneNumber')}</p>
-                <p>
-                  <Link 
-                    className="text-primary hover:text-screens transition-colors" 
-                    to="tel:01021798849"
-                  >
+                <div className={`${isArabic ? 'text-right' : 'text-left'} flex-1 min-w-0`}>
+                  <p className="font-semibold text-primary mb-1 text-sm">{t('contact.phoneNumber')}</p>
+                  <Link className="text-gray-600 hover:text-screens transition-colors text-sm truncate block" to="tel:01021798849">
                     01021798849
                   </Link>
-                </p>
+                </div>
               </div>
-            </div>
 
-            {/* Email Card */}
-            <div className="flex items-start max-h-fit gap-4 p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition">
-              <div className="bg-primary p-4 rounded-full shrink-0">
-                <div className="  rounded-full">
+              <div className="flex items-start gap-3 p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow h-24">
+                <div className="bg-primary p-3 rounded-lg shrink-0">
                   <FaEnvelope className="text-white text-xl" />
                 </div>
-              </div>
-              <div className={isArabic ? 'text-right' : 'text-left'}>
-                <p className="font-semibold text-primary mb-1">{t('contact.emailAddress')}</p>
-                <p>
-                  <Link 
-                    className="text-primary hover:text-screens transition-colors" 
-                    to="mailto:EAM.info.2025@gmail.com"
-                  >
+                <div className={`${isArabic ? 'text-right' : 'text-left'} flex-1 min-w-0`}>
+                  <p className="font-semibold text-primary mb-1 text-sm">{t('contact.emailAddress')}</p>
+                  <Link className="text-gray-600 hover:text-screens transition-colors text-xs truncate block" to="mailto:EAM.info.2025@gmail.com">
                     EAM.info.2025@gmail.com
                   </Link>
-                </p>
+                </div>
               </div>
-            </div>
 
-            {/* Location Card */}
-            <div className="flex items-start max-h-fit gap-4 p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition">
-              <div className="bg-primary p-4 rounded-full shrink-0">
-                <div className="  rounded-full">
+              <div className="flex items-start gap-3 p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow h-24">
+                <div className="bg-primary p-3 rounded-lg shrink-0">
                   <FaMapMarkerAlt className="text-white text-xl" />
                 </div>
-              </div>
-              <div className={isArabic ? 'text-right' : 'text-left'}>
-                <p className="font-semibold text-primary mb-1">{t('contact.location')}</p>
-                <p>
-                  <Link
-                    className="text-primary hover:text-screens transition-colors"
-                    to="https://www.google.com/maps?q=Saudi+Arabia+Jeddah+Riyadh"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                <div className={`${isArabic ? 'text-right' : 'text-left'} flex-1 min-w-0`}>
+                  <p className="font-semibold text-primary mb-1 text-sm">{t('contact.location')}</p>
+                  <Link className="text-gray-600 hover:text-screens transition-colors text-sm truncate block" to="https://maps.google.com" target="_blank">
                     {t('hero.location')}
                   </Link>
-                </p>
-              </div>
-            </div>
-
-            {/* Fax Card */}
-            <div className="flex items-start max-h-fit gap-4 p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition">
-              <div className="bg-primary p-4 rounded-full shrink-0">
-                <div className="  rounded-full">
-                  <FaAddressBook className="text-white text-xl" />
                 </div>
               </div>
-              <div className={isArabic ? 'text-right' : 'text-left'}>
-                <p className="font-semibold text-primary mb-1">{t('contact.faxAddress')}</p>
-                <p>
-                  <Link 
-                    className="text-primary hover:text-screens transition-colors" 
-                    to="tel:01021798849"
-                  >
+
+              <div className="flex items-start gap-3 p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow h-24">
+                <div className="bg-primary p-3 rounded-lg shrink-0">
+                  <FaAddressBook className="text-white text-xl" />
+                </div>
+                <div className={`${isArabic ? 'text-right' : 'text-left'} flex-1 min-w-0`}>
+                  <p className="font-semibold text-primary mb-1 text-sm">{t('contact.faxAddress')}</p>
+                  <Link className="text-gray-600 hover:text-screens transition-colors text-sm truncate block" to="tel:01021798849">
                     01021798849
                   </Link>
-                </p>
+                </div>
+              </div>
               </div>
             </div>
+
+            {/* Contact Form */}
+            <div className={isArabic ? 'text-right' : 'text-left'}>
+              <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 px-4 rounded-xl shadow-lg">
+                
+                {/* Contact Type */}
+                <div className="relative">
+                  <label className={`block text-sm font-medium text-gray-700 mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
+                    {isArabic ? "نوع التواصل" : "Contact Type"} *
+                  </label>
+                  <select
+                    value={formData.contactType}
+                    onChange={(e) => handleChange('contactType', e.target.value)}
+                    className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-screens focus:outline-none transition-colors bg-white"
+                    required
+                  >
+                    <option value="">{isArabic ? "اختر نوع التواصل" : "Select Contact Type"}</option>
+                    <option value="job">{isArabic ? "التقدم لوظيفة" : "Apply for a job"}</option>
+                    <option value="service">{isArabic ? "طلب خدمة" : "Ask for a Service"}</option>
+                    <option value="support">{isArabic ? "التواصل للدعم" : "Contact for support"}</option>
+                  </select>
+                </div>
+
+                {/* Position (Job) */}
+                {formData.contactType === 'job' && (
+                  <div className="relative">
+                    <label className={`block text-sm font-medium text-gray-700 mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
+                      {isArabic ? "المنصب" : "Position"} *
+                    </label>
+                    <select
+                      value={formData.position}
+                      onChange={(e) => handleChange('position', e.target.value)}
+                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-screens focus:outline-none transition-colors bg-white"
+                      required
+                    >
+                      <option value="">{isArabic ? "اختر المنصب" : "Select Position"}</option>
+                      {positions.map(pos => (
+                        <option key={pos.id} value={isArabic ? pos.titleAr : pos.titleEn}>
+                          {isArabic ? pos.titleAr : pos.titleEn}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                {/* CV Upload (Job) */}
+                {formData.contactType === 'job' && (
+                  <div className="relative">
+                    <label className={`block text-sm font-medium text-gray-700 ${isArabic ? 'text-right' : 'text-left'}`}>
+                      {isArabic ? "السيرة الذاتية (PDF)" : "CV (PDF)"} *
+                    </label>
+                    <input
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                      onChange={handleFileChange}
+                      className="w-full border-2 border-gray-200 rounded-lg focus:border-screens focus:outline-none transition-colors bg-white file:py-2 file:px-4 file:border-0 file:bg-primary file:text-white file:cursor-pointer hover:file:bg-primary/90"
+                      required
+                    />
+                    {formData.cvFile && (
+                      <p className="mt-2 text-sm text-gray-600">
+                        {isArabic ? "الملف:" : "File:"} {formData.cvFile.name}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {/* Service (Service) */}
+                {formData.contactType === 'service' && (
+                  <div className="relative">
+                    <label className={`block text-sm font-medium text-gray-700 mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
+                      {isArabic ? "الخدمة" : "Service"} *
+                    </label>
+                    <select
+                      value={formData.service}
+                      onChange={e => handleChange('service', e.target.value)}
+                      className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-screens focus:outline-none transition-colors bg-white"
+                      required
+                    >
+                      <option value="">{isArabic ? "اختر الخدمة" : "Select Service"}</option>
+                      {services.map(service => (
+                        <option key={service.id} value={isArabic ? service.titleAr : service.titleEn}>
+                          {isArabic ? service.titleAr : service.titleEn}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                {/* Name */}
+                <div className="relative">
+                  <label className={`block text-sm font-medium text-gray-700 mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
+                    {t('contact.name')} *
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) => handleChange('name', e.target.value)}
+                    className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-screens focus:outline-none transition-colors"
+                    required
+                  />
+                </div>
+
+                {/* Email */}
+                <div className="relative">
+                  <label className={`block text-sm font-medium text-gray-700 mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
+                    {t('contact.email')} *
+                  </label>
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleChange('email', e.target.value)}
+                    className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-screens focus:outline-none transition-colors"
+                    required
+                  />
+                </div>
+
+                {/* Message */}
+                <div className="relative">
+                  <label className={`block text-sm font-medium text-gray-700 mb-2 ${isArabic ? 'text-right' : 'text-left'}`}>
+                    {t('contact.message')} *
+                  </label>
+                  <textarea
+                    rows="5"
+                    value={formData.message}
+                    onChange={(e) => handleChange('message', e.target.value)}
+                    className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-screens focus:outline-none resize-none transition-colors"
+                    required
+                  ></textarea>
+                </div>
+
+                <button 
+                  type="submit" 
+                  className="w-full px-6 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition-colors shadow-md hover:shadow-lg"
+                >
+                  {t('contact.send')}
+                </button>
+              </form>
+            </div>
+
           </div>
-
-          {/* Contact Form Section - Right Column */}
-          <div className={isArabic ? 'text-right' : 'text-left'}>
-
-            <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Name Field */}
-              <div className="relative group">
-                <label
-                  className={`absolute ${isArabic ? 'right-4' : 'left-4'} pointer-events-none transition-all duration-300 ease-out ${
-                    focused.name || formData.name
-                      ? 'top-0 text-xs text-screens font-medium transform -translate-y-1/2 bg-white px-2'
-                      : 'top-3 text-base text-gray-500'
-                  }`}
-                >
-                  {t('contact.name')}
-                </label>
-                {/* Static bottom border */}
-                <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gray-300" />
-                {/* Animated border line - expands on focus */}
-                <div 
-                  className={`absolute bottom-0 ${isArabic ? 'right-0 origin-right' : 'left-0 origin-left'} h-[2px] bg-screens transition-all duration-300 ease-out ${
-                    focused.name || formData.name
-                      ? 'w-full scale-x-100 opacity-100'
-                      : 'w-0 scale-x-0 opacity-0'
-                  }`}
-                />
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => handleChange('name', e.target.value)}
-                  onFocus={() => handleFocus('name')}
-                  onBlur={() => handleBlur('name')}
-                  className="w-full px-4 py-3 pt-5 border-0 focus:outline-none bg-transparent relative z-10"
-                  required
-                />
-              </div>
-
-              {/* Email Field */}
-              <div className="relative group">
-                <label
-                  className={`absolute ${isArabic ? 'right-4' : 'left-4'} pointer-events-none transition-all duration-300 ease-out ${
-                    focused.email || formData.email
-                      ? 'top-0 text-xs text-screens font-medium transform -translate-y-1/2 bg-white px-2'
-                      : 'top-3 text-base text-gray-500'
-                  }`}
-                >
-                  {t('contact.email')}
-                </label>
-                {/* Static bottom border */}
-                <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gray-300" />
-                {/* Animated border line - expands on focus */}
-                <div 
-                  className={`absolute bottom-0 ${isArabic ? 'right-0 origin-right' : 'left-0 origin-left'} h-[2px] bg-screens transition-all duration-300 ease-out ${
-                    focused.email || formData.email
-                      ? 'w-full scale-x-100 opacity-100'
-                      : 'w-0 scale-x-0 opacity-0'
-                  }`}
-                />
-                <input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleChange('email', e.target.value)}
-                  onFocus={() => handleFocus('email')}
-                  onBlur={() => handleBlur('email')}
-                  className="w-full px-4 py-3 pt-5 border-0 focus:outline-none bg-transparent relative z-10"
-                  required
-                />
-              </div>
-
-              {/* Message Field */}
-              <div className="relative group">
-                <label
-                  className={`absolute ${isArabic ? 'right-4' : 'left-4'} pointer-events-none transition-all duration-300 ease-out ${
-                    focused.message || formData.message
-                      ? 'top-2 text-xs text-screens font-medium transform bg-white px-2'
-                      : 'top-3 text-base text-gray-500'
-                  }`}
-                >
-                  {t('contact.message')}
-                </label>
-                {/* Static bottom border */}
-                <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gray-300" />
-                {/* Animated border line - expands on focus */}
-                <div 
-                  className={`absolute bottom-0 ${isArabic ? 'right-0 origin-right' : 'left-0 origin-left'} h-[2px] bg-screens transition-all duration-300 ease-out ${
-                    focused.message || formData.message
-                      ? 'w-full scale-x-100 opacity-100'
-                      : 'w-0 scale-x-0 opacity-0'
-                  }`}
-                />
-                <textarea
-                  rows="5"
-                  value={formData.message}
-                  onChange={(e) => handleChange('message', e.target.value)}
-                  onFocus={() => handleFocus('message')}
-                  onBlur={() => handleBlur('message')}
-                  className="w-full px-4 py-3 pt-8 border-0 focus:outline-none resize-none bg-transparent relative z-10"
-                  required
-                ></textarea>
-              </div>
-
-              <button 
-                type="submit" 
-                className="w-full px-6 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/80 transition-colors mt-4"
-              >
-                {t('contact.send')}
-              </button>
-            </form>
-          </div>
-
         </div>
       </div>
+
+      {/* Services Banner */}
+      <section className="py-16 bg-gradient-to-r from-primary via-primary/95 to-primary">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              {isArabic ? "خدماتنا" : "Our Services"}
+            </h2>
+            <p className="text-white/90 text-lg max-w-2xl mx-auto">
+              {isArabic 
+                ? "نقدم مجموعة واسعة من الخدمات الاحترافية"
+                : "We offer a wide range of professional services"
+              }
+            </p>
+          </div>
+
+          <div className="text-center">
+            <Link
+              to="/services"
+              className="inline-block px-8 py-3 bg-screens text-primary font-bold rounded-xl hover:bg-screens/90 transition-all duration-300 shadow-lg"
+            >
+              {isArabic ? "عرض جميع الخدمات" : "View All Services"}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Map */}
+      <section className="w-full h-[500px] md:h-[600px] relative">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3710.123456789!2d39.1825!3d21.4858!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15c3d01fb1137e59%3A0xe059579737b118db!2sJeddah%2C%20Saudi%20Arabia!5e0!3m2!1sen!2s!4v1234567890123!5m2!1sen!2s"
+          width="100%"
+          height="100%"
+          style={{ border: 0 }}
+          allowFullScreen=""
+          loading="lazy"
+          title="Location Map"
+          className="w-full h-full"
+        ></iframe>
+        
+        <div className={`absolute ${isArabic ? 'left-4' : 'right-4'} top-4 bg-white rounded-lg shadow-xl p-4 max-w-xs`}>
+          <div className="flex items-start gap-3">
+            <div className="bg-primary p-3 rounded-lg">
+              <FaMapMarkerAlt className="text-white text-xl" />
+            </div>
+            <div className={isArabic ? 'text-right' : 'text-left'}>
+              <h4 className="font-bold text-primary mb-1">
+                {isArabic ? "موقعنا" : "Our Location"}
+              </h4>
+              <p className="text-gray-600 text-sm">
+                {t('hero.location')}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import logo from "../assets/footerLogo.svg";
-import footerBg from "../assets/footerBg.png";
 
 function Footer() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isArabic = i18n.language === 'ar';
   
   const socialMedia = [
     { name: t('footer.social.facebook'), icon: "M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" },
@@ -24,100 +24,161 @@ function Footer() {
   const aboutText = t('footer.about');
 
   return (
-    <footer
-      className="text-white w-full relative overflow-hidden"
-      style={{
-        background: `linear-gradient(to top, var(--color-primary) 0%, var(--color-primary) 10%, #FFFFFF 10%, #FFFFFF 100%)`
-      }}
-    >
-      <div 
-        className="absolute inset-0 w-full h-full"
-        style={{
-          backgroundImage: `url(${footerBg})`,
-          backgroundSize: "100% 100%",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat"
-        }}
-      />
+    <footer className="w-full bg-gradient-to-b from-primary via-primary to-primary/95 text-white relative overflow-hidden">
+      {/* Decorative Top Border */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-screens via-cards to-screens"></div>
       
-      <div className="container mx-auto px-8 max-md:px-0 py-16 pt-75 relative z-10">
-        {/* FLEX مش GRID */}
-        <div className="flex flex-col md:flex-row-reverse lg:flex-row-reverse gap-16">
-
-          {/* Logo and About */}
-          <div className="w-full md:w-[60%] lg:w-[60%] text-center">
-            <img src={logo} alt="Logo" className="h-24 mb-6 mx-auto" />
-            <p className="text-white leading-relaxed text-lg">
+      {/* Background Pattern Overlay */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+          backgroundSize: '40px 40px'
+        }}></div>
+      </div>
+      
+      <div className="container mx-auto px-4 md:px-8 py-12 md:py-16 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+          
+          {/* Logo and About Section */}
+          <div className="lg:col-span-2">
+            <div className="mb-6">
+              <img src={logo} alt="Logo" className="h-20 md:h-24 mb-6" />
+            </div>
+            <p className="text-white/90 leading-relaxed text-base md:text-lg max-w-lg">
               {aboutText}
             </p>
+            
+            {/* Social Media Icons - Horizontal */}
+            <div className="mt-8">
+              <h4 className="text-lg font-semibold mb-4 text-white">
+                {t('footer.socialMedia')}
+              </h4>
+              <div className="flex flex-wrap gap-3">
+                {socialMedia.map((social, index) => (
+                  <a
+                    key={index}
+                    href="#"
+                    className="group w-12 h-12 bg-white/10 hover:bg-screens rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-lg"
+                    aria-label={social.name}
+                  >
+                    <svg className="w-5 h-5 fill-white group-hover:fill-primary transition-colors" viewBox="0 0 24 24">
+                      <path d={social.icon} />
+                    </svg>
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
 
-          {/* Links and Social Media - جنب بعض في كل الشاشات */}
-          <div className="w-full md:w-[40%] lg:w-[30%]">
-            <div className="flex flex-row gap-6  max-md:gap-2 justify-between">
-              
-              
-              {/* Site Pages */}
-              <div className="">
-                <h3 className="text-xl font-bold mb-6 px-4 py-2 bg-screens inline-block rounded whitespace-nowrap">
-                  {t('footer.sitePages')}
-                </h3>
-                <ul className="space-y-3 mt-6">
-                  {pages.map((page, index) => (
-                    <li key={index} className="flex items-center  gap-2">
-                      <span className="w-4 h-4 bg-screens shrink-0"></span>
-
-                      <Link
-                        to={page.href}
-                        className="text-white hover:text-screens transition-colors text-base whitespace-nowrap"
-                        onClick={(e) => {
-                          if (page.name === t('footer.pages.services') && window.location.pathname === '/') {
-                            e.preventDefault();
-                            document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
-                          }
-                        }}
-                      >
+          {/* Site Pages and Contact Info - Same Row on Mobile */}
+          <div className="grid grid-cols-2 col-span-2">
+            {/* Site Pages Section */}
+            <div className="col-span-1">
+              <h3 className="text-xl font-bold mb-6 text-white relative inline-block">
+                {t('footer.sitePages')}
+                <span className="absolute bottom-0 left-0 w-full h-1 bg-screens rounded"></span>
+              </h3>
+              <ul className="space-y-3 mt-6">
+                {pages.map((page, index) => (
+                  <li key={index}>
+                    <Link
+                      to={page.href}
+                      className="flex items-center gap-3 text-white/80 hover:text-screens transition-all duration-300 group"
+                      onClick={(e) => {
+                        if (page.name === t('footer.pages.services') && window.location.pathname === '/') {
+                          e.preventDefault();
+                          document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+                        }
+                      }}
+                    >
+                      <span className="w-2 h-2 bg-screens rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                      <span className={`transition-transform ${isArabic ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`}>
                         {page.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-              {/* Social Media */}
-              <div className="">
-                <h3 className="text-xl font-bold mb-6 px-4 py-2 bg-screens inline-block rounded whitespace-nowrap">
-                  {t('footer.socialMedia')}
-                </h3>
-                <ul className="space-y-3 mt-6">
-                  {socialMedia.map((social, index) => (
-                    <li key={index}>
-                      <a 
-                        href="#" 
-                        className="flex items-center  gap-3 text-white hover:text-screens transition-colors"
-                      >
-                        <div className="w-10 h-10 bg-white rounded flex items-center justify-center shrink-0">
-                          <svg className="w-5 h-5 fill-primary" viewBox="0 0 24 24">
-                            <path d={social.icon} />
-                          </svg>
-                        </div>
-                        <span className="text-base whitespace-nowrap">{social.name}</span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
+            {/* Contact Info Section */}
+            <div className="col-span-1">
+              <h3 className="text-xl font-bold mb-6 text-white relative inline-block">
+                {t('contact.contactUs')}
+                <span className="absolute bottom-0 left-0 w-full h-1 bg-screens rounded"></span>
+              </h3>
+              <ul className="space-y-4 mt-6">
+                <li className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center shrink-0">
+                    <svg className="w-5 h-5 fill-white" viewBox="0 0 24 24">
+                      <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                    </svg>
+                  </div>
+                  <div className={isArabic ? 'text-right' : 'text-left'}>
+                    <p className="text-white/80 text-sm">{t('contact.phoneNumber')}</p>
+                    <a href="tel:01021798849" className="text-white hover:text-screens transition-colors">
+                      01021798849
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center shrink-0">
+                    <svg className="w-5 h-5 fill-white" viewBox="0 0 24 24">
+                      <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                  </div>
+                  <div className={isArabic ? 'text-right' : 'text-left'}>
+                    <p className="text-white/80 text-sm">{t('contact.emailAddress')}</p>
+                    <a href="mailto:EAM.info.2025@gmail.com" className="text-white hover:text-screens transition-colors text-sm break-all">
+                      EAM.info.2025@gmail.com
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center shrink-0">
+                    <svg className="w-5 h-5 fill-white" viewBox="0 0 24 24">
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
+                  </div>
+                  <div className={isArabic ? 'text-right' : 'text-left'}>
+                    <p className="text-white/80 text-sm">{t('contact.location')}</p>
+                    <a 
+                      href="https://www.google.com/maps?q=Saudi+Arabia+Jeddah+Riyadh" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white hover:text-screens transition-colors text-sm"
+                    >
+                      {t('hero.location') || 'Saudi Arabia, Jeddah, Riyadh'}
+                    </a>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center shrink-0">
+                    <svg className="w-5 h-5 fill-white" viewBox="0 0 24 24">
+                      <path d="M19 8h-1V3H6v5H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zM8 5h8v3H8V5zm8 12v2H8v-4h8v2zm2-2v-2H6v2H4v-4c0-.55.45-1 1-1h14c.55 0 1 .45 1 1v4h-2z"/>
+                    </svg>
+                  </div>
+                  <div className={isArabic ? 'text-right' : 'text-left'}>
+                    <p className="text-white/80 text-sm">{t('contact.faxAddress')}</p>
+                    <a href="tel:01021798849" className="text-white hover:text-screens transition-colors">
+                      01021798849
+                    </a>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
 
         </div>
 
-        {/* Copyright */}
-        <div className="mt-12 pt-6 border-t border-screens/30 text-center">
-          <p className="text-white/80 text-sm">
-            © {new Date().getFullYear()} EAM CO. {t('footer.copyright')}
-          </p>
+        {/* Copyright Section */}
+        <div className="mt-12 pt-8 border-t border-white/10">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-4">
+            <p className="text-white/70 text-sm text-center md:text-left">
+              © {new Date().getFullYear()} EAM CO. {t('footer.copyright')}
+            </p>
+            
+          </div>
         </div>
       </div>
     </footer>

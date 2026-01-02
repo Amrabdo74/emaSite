@@ -3,6 +3,7 @@
     "home": "Home",
     "services": "Our Services",
     "about": "About Us",
+    "careers": "Careers",
     "contact": "Contact Us",
     "login": "Login",
     "register": "Register",
@@ -99,6 +100,8 @@
   "contact": {
     "contactUs": "Contact Us",
     "description": "We're here to help. Send us a message and we'll get back to you as soon as possible.",
+    "contactInfo": "Contact Information",
+    "contactInfoDescription": "You can contact us through phone, email, or website.",
     "phoneNumber": "Phone Number",
     "emailAddress": "Email Address",
     "location": "Location",

@@ -1,15 +1,15 @@
 import { useTranslation } from 'react-i18next';
-import aboutImage from '../assets/hero.png';
+import aboutImage from '../assets/man pic.png';
 
 function AboutUs() {
   const { t } = useTranslation();
   return (
-    <section id="about" className="bg-white py-16">
+    <section id="about" className="bg-white py-0">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center gap-16">
           
           {/* Text Content */}
-          <div className="flex-1 text-right space-y-8">
+          <div className="flex-1 text-right space-y-8 py-10">
             <div className="space-y-4">
               <h2 className="text-5xl font-bold text-screens leading-tight">
                 {t('about.title')}
@@ -31,11 +31,11 @@ function AboutUs() {
 
           {/* Image */}
           <div className="flex-1">
-            <div className="w-full h-[500px] rounded-2xl">
+            <div className="w-full h-[450px] md:h-[650px] rounded-2xl">
               <img 
                 src={aboutImage} 
                 alt='About Us' 
-                className='h-full w-full object-cover'
+                className='h-full w-full md:object-cover'
               />
             </div>
           </div>
