@@ -158,13 +158,7 @@ function Header() {
               </MobileNavLink>
               <MobileNavLink 
                 to="/services"
-                onClick={(e) => {
-                  setIsMenuOpen(false);
-                  if (window.location.pathname === '/') {
-                    e.preventDefault();
-                    document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
+                
               >
                 {t('header.services')}
               </MobileNavLink>
