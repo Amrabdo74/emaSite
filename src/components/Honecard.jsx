@@ -42,7 +42,7 @@ const Honecard = () => {
   let delay = 50;
 
   return (
-    <div className="container mx-auto px-4 my-5" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
+    <div className="container mx-auto px-4 py-9 my-5" dir={currentLanguage === "ar" ? "rtl" : "ltr"}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {cards.map((card, index) => (
           <div

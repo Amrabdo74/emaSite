@@ -6,7 +6,7 @@ function ContactInfo() {
     <section className="bg-white py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Email */}
+          {/*EMAil */}
           <div className="flex items-center gap-4 bg-gray-50 p-6 rounded-lg hover:shadow-lg transition">
             <div className="bg-screens p-4 rounded-full">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -15,7 +15,7 @@ function ContactInfo() {
             </div>
             <div className="text-right">
               <h3 className="text-gray-600 mb-1">{t('hero.contactUs')}</h3>
-              <p className="text-primary font-semibold">{t('hero.email')}</p>
+              <p className="text-primary font-semibold">{t('hero.eamil')}</p>
             </div>
           </div>
 

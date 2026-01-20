@@ -10,7 +10,7 @@ export default function HomePage() {
     <div className="min-h-screen">
       <NewHeroSection />
       <Honecard />
-      <ContactInfo />
+      {/* <ContactInfo /> */}
       <AboutUs />
       <div id="services">
         <Services />

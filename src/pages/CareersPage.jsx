@@ -79,16 +79,16 @@ export default function CareersPage() {
                 <p className="text-gray-600 mb-6">
                   {currentLanguage === "ar"
                     ? "إذا كنت ترغب في إرسال سيرتك الذاتية للاحتفاظ بها في ملفنا، يمكنك التواصل معنا عبر البريد الإلكتروني"
-                    : "If you'd like to send your CV to keep on file, you can contact us via email"
+                    : "If you'd like to send your CV to keep on file, you can contact us viaEMAil"
                   }
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                   <a
-                    href="mailto:EAM.info.2025@gmail.com?subject=CV Submission"
+                    href="mailto:eam.info.2025@gmail.com?subject=CV Submission"
                     className="flex items-center gap-3 px-6 py-3 bg-primary text-white rounded-xl font-semibold hover:bg-primary/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                   >
                     <FaEnvelope className="text-xl" />
-                    <span>EAM.info.2025@gmail.com</span>
+                    <span>eam.info.2025@gmail.com</span>
                   </a>
                   <Link
                     to="/contact"

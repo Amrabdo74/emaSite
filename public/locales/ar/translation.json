@@ -20,7 +20,7 @@
     "contactUs": "تواصل معنا",
     "headquarters": "المقر الرئيسي",
     "location": "السعودية - جدة - الرياض",
-    "email": "EAM.info.2025@gmail.com",
+    "eamil": "eam.info.2025@gmail.com",
     "phone": "01021798849"
   },
   "features": {
@@ -103,11 +103,11 @@
     "phoneNumber": "رقم الهاتف",
     "contactInfo": "معلومات التواصل",
     "contactInfoDescription": "يمكنك التواصل معنا عبر الهاتف أو البريد الإلكتروني أو الموقع الإلكتروني.",
-    "emailAddress": "البريد الإلكتروني",
+    "eamilAddress": "البريد الإلكتروني",
     "location": "الموقع",
     "faxAddress": "رقم الفاكس",
     "name": "الاسم",
-    "email": "البريد الإلكتروني",
+    "eamil": "البريد الإلكتروني",
     "message": "الرسالة",
     "send": "إرسال"
   },

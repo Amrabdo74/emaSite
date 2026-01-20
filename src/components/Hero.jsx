@@ -53,7 +53,7 @@ export default function Hero() {
       {/* CONTACT BAR - Below left section */}
       <div className="w-full bg-white flex flex-col md:flex-row justify-between py-6 px-8 border-t border-gray-200">
         
-        {/* Email Section */}
+        {/*EMAil Section */}
         <div className="mb-4 md:mb-0 flex flex-col items-center text-primary">
           <span className="font-semibold mb-2">{t('hero.contactUs')}</span>
           <div className="flex items-center gap-2">
@@ -62,7 +62,7 @@ export default function Hero() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
             </div>
-            <span className="text-sm md:text-base">{t('hero.email')}</span>
+            <span className="text-sm md:text-base">{t('hero.eamil')}</span>
           </div>
         </div>
 

@@ -1,4 +1,4 @@
-import logo from "../assets/footerLogo.svg";
+import logo from "../assets/logo.png";
 
 export default function LoadingScreen() {
   // Get language from document or default to Arabic
@@ -8,7 +8,7 @@ export default function LoadingScreen() {
     <div className="fixed inset-0 bg-gradient-to-b from-[#E8F4FF] to-white flex flex-col items-center justify-center z-50" dir={isArabic ? 'rtl' : 'ltr'}>
       {/* Logo */}
       <div className="mb-8 animate-pulse">
-        <img src={logo} alt="EAM Logo" className="h-24 w-auto drop-shadow-lg" />
+        <img src={logo} alt="eam Logo" className="h-24 w-auto drop-shadow-lg" />
       </div>
       
       {/* Loading Spinner */}

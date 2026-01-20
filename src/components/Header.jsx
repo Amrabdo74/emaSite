@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import logo from "../assets/footerLogo.svg";
+import logo from "../assets/logo.png";
 
 function Header() {
   const { t, i18n } = useTranslation();
@@ -77,8 +77,8 @@ function Header() {
       <div className="hidden md:flex w-full h-20">
         {/* Right: Blue half with logo */}
         <div className="w-1/2 flex items-center justify-start">
-          <Link to="/" className="ml-4 bg-primary p-2 rounded-sm hover:scale-105 transition-transform duration-300">
-            <img src={logo} alt="logo" className="h-14" />
+          <Link to="/" className="ml-4  rounded-sm hover:scale-105 transition-transform duration-300">
+            <img src={logo} alt="logo" className="h-15" />
           </Link>
         </div>
 
@@ -109,7 +109,7 @@ function Header() {
       <div className="md:hidden w-full bg-white">
         <div className="flex items-center justify-between px-4 py-3">
           {/* Small blue logo block at right */}
-          <div className="bg-primary p-2 rounded flex items-center justify-center hover:scale-105 transition-transform duration-300">
+          <div className=" rounded flex items-center justify-center hover:scale-105 transition-transform duration-300">
             <Link to="/">
               <img src={logo} alt="logo" className="h-10" />
             </Link>
