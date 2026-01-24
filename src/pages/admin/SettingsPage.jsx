@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore'; 
-// Removed storage related imports
 import { db } from '../../firebase';
 import { useTranslation } from 'react-i18next';
-import { FaSave, FaSpinner } from 'react-icons/fa'; // Removed FaUpload
+import { FaSave, FaSpinner, FaMapMarkerAlt } from 'react-icons/fa';
+import BilingualInput from '../../components/admin/BilingualInput'; // Import BilingualInput
 
 export default function SettingsPage() {
   const { t, i18n } = useTranslation();
   const isArabic = i18n.language === 'ar';
   
+  // Adjusted State for location
   const [settings, setSettings] = useState({
     email: '',
     phone: '',
@@ -18,10 +19,10 @@ export default function SettingsPage() {
     instagram: '',
     linkedin: '',
     whatsapp: '', 
-    // logoUrl removed from UI but kept in state if existing? No need to display it if section removed.
+    location: { ar: '', en: '' }, // Bilingual Location
+    locationMapUrl: '', // Map Embed Link
   });
   const [whatsappNumber, setWhatsappNumber] = useState(''); 
-  // Removed logoFile state
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -36,7 +37,12 @@ export default function SettingsPage() {
       
       if (docSnap.exists()) {
         const data = docSnap.data();
-        setSettings({ ...settings, ...data });
+        setSettings({ 
+             ...settings, 
+             ...data,
+             location: data.location || { ar: '', en: '' }, // Ensure object exists
+             locationMapUrl: data.locationMapUrl || ''
+        });
         
         if (data.whatsapp) {
           const match = data.whatsapp.match(/wa\.me\/(\d+)/);
@@ -54,15 +60,11 @@ export default function SettingsPage() {
     }
   };
 
-  // Removed handleLogoChange
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
 
     try {
-      // Removed logo upload logic
-
       // Generate WhatsApp URL
       const finalWhatsappUrl = whatsappNumber 
         ? `https://wa.me/${whatsappNumber}` 
@@ -101,10 +103,6 @@ export default function SettingsPage() {
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
         <form onSubmit={handleSubmit} className="space-y-8">
           
-
-          {/* Logo Section Removed as per request */}
-
-
           {/* Contact Info */}
           <div>
             <h2 className="text-lg font-semibold text-primary mb-4 border-b pb-2">
@@ -147,6 +145,44 @@ export default function SettingsPage() {
                   dir="ltr"
                 />
               </div>
+            </div>
+            
+            {/* Location Section */}
+            <div className="mt-6 border-t pt-6">
+                 <div className="flex items-center gap-2 mb-4">
+                     <FaMapMarkerAlt className="text-primary" />
+                     <h3 className="font-semibold text-gray-700">{isArabic ? 'الموقع الجغرافي' : 'Location'}</h3>
+                 </div>
+                 
+                 <div className="space-y-4">
+                     {/* Bilingual Location Text using existing component */}
+                     {/* BilingualInput expects formData and setFormData structure which matches settings state here */}
+                     <BilingualInput 
+                        label={isArabic ? 'العنوان (نص)' : 'Address (Text)'}
+                        valueKey="location"
+                        formData={settings}
+                        setFormData={setSettings}
+                     />
+                     
+                     <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          {isArabic ? 'رابط خريطة جوجل (Embed URL)' : 'Google Map Embed URL'}
+                        </label>
+                        <input
+                          type="url"
+                          value={settings.locationMapUrl}
+                          onChange={(e) => setSettings({...settings, locationMapUrl: e.target.value})}
+                          placeholder="https://www.google.com/maps/embed?..."
+                          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-screens focus:border-screens outline-none transition-all"
+                          dir="ltr"
+                        />
+                        <p className="mt-1 text-xs text-gray-500">
+                            {isArabic 
+                                ? 'اذهب إلى خرائط جوجل -> مشاركة -> تضمين خريطة -> انسخ الرابط (src) فقط'
+                                : 'Go to Google Maps -> Share -> Embed a map -> Copy just the link (src)'}
+                        </p>
+                     </div>
+                 </div>
             </div>
           </div>
 

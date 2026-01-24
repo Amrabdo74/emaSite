@@ -1,14 +1,40 @@
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaCode, FaBullhorn, FaBuilding, FaFileAlt } from 'react-icons/fa';
+import { FaCode, FaBullhorn, FaBuilding, FaFileAlt, FaImages } from 'react-icons/fa';
 import FAQ from '../components/FAQ';
+import { collection, query, getDocs } from 'firebase/firestore';
+import { db } from '../firebase';
 
 export default function ServicesPage() {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language === 'ar' ? "ar" : "en";
   const [hoveredService, setHoveredService] = useState(null);
+  const [servicesWithProjects, setServicesWithProjects] = useState({});
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkProjects = async () => {
+      try {
+        const q = query(collection(db, 'projects'));
+        const snapshot = await getDocs(q);
+        const projectCounts = {};
+        
+        snapshot.docs.forEach(doc => {
+          const data = doc.data();
+          if (data.mainService) {
+            projectCounts[data.mainService] = true;
+          }
+        });
+        
+        setServicesWithProjects(projectCounts);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
+    };
+
+    checkProjects();
+  }, []);
 
   const handleRequestService = (serviceTitle) => {
     // Navigate to contact page with service information
@@ -24,7 +50,7 @@ export default function ServicesPage() {
 
   const services = [
     {
-      id: 1,
+      id: "web_development",
       titleAr: "تطوير المواقع والتطبيقات",
       titleEn: "Website & App Development",
       shortDescAr: "أفضل الحلول والعروض المتاحة لتصميم مواقع إلكترونية مميزة",
@@ -51,7 +77,7 @@ export default function ServicesPage() {
       icon: FaCode
     },
     {
-      id: 2,
+      id: "marketing",
       titleAr: "الدعاية والإعلان والتسويق الإلكتروني",
       titleEn: "Advertising & Digital Marketing",
       shortDescAr: "إدارة الحملات الإعلانية والتسويق عبر وسائل التواصل الاجتماعي وتصميم الهوية البصرية",
@@ -78,7 +104,7 @@ export default function ServicesPage() {
       icon: FaBullhorn
     },
     {
-      id: 3,
+      id: "architectural_design",
       titleAr: "التصميم المعماري والإنشائي",
       titleEn: "Architectural & Structural Design",
       shortDescAr: "تصميم معماري مبتكر وحلول إنشائية متكاملة للمشاريع السكنية والتجارية",
@@ -105,7 +131,7 @@ export default function ServicesPage() {
       icon: FaBuilding
     },
     {
-      id: 4,
+      id: "licensing",
       titleAr: "قسم الرخص",
       titleEn: "Licensing Department",
       shortDescAr: "توفير جميع خدمات الرخص التي تحتاجها المنشآت والشركات مثل إصدار رخصة البلدية ومشاهدة السلامة إصدار كارت تشغيل المركبات",
@@ -233,14 +259,24 @@ export default function ServicesPage() {
                     </div>
                   </div>
 
-                  {/* CTA Button */}
-                  <div className="mt-8 pt-6 border-t border-gray-200">
+                  {/* CTA Buttons */}
+                  <div className="mt-8 pt-6 border-t border-gray-200 flex flex-col md:flex-row gap-4">
                     <button 
                       onClick={() => handleRequestService(currentLanguage === "ar" ? service.titleAr : service.titleEn)}
-                      className="w-full py-3 px-6 bg-primary text-white rounded-xl font-semibold hover:bg-primary/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                      className="flex-1 py-3 px-6 bg-primary text-white rounded-xl font-semibold hover:bg-primary/90 transition-all duration-300 transform hover:scale-105 shadow-md"
                     >
                       {currentLanguage === "ar" ? "اطلب الخدمة الآن" : "Request Service Now"}
                     </button>
+                    
+                    {servicesWithProjects[service.id] && (
+                        <button
+                          onClick={() => navigate(`/services/${service.id}/projects`)}
+                          className="flex-1 py-3 px-6 bg-white border-2 border-primary text-primary rounded-xl font-semibold hover:bg-primary/5 transition-all duration-300 flex items-center justify-center gap-2 transform hover:scale-105 shadow-md"
+                        >
+                          <FaImages />
+                          {currentLanguage === "ar" ? "عرض المشاريع" : "View Projects"}
+                        </button>
+                    )}
                   </div>
                 </div>
 

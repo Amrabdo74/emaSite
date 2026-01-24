@@ -4,6 +4,8 @@ import HomePage from '../pages/HomePage';
 import AboutPage from '../pages/AboutPage';
 import ContactPage from '../pages/ContactPage';
 import ServicesPage from '../pages/ServicesPage';
+import ServiceProjectsPage from '../pages/ServiceProjectsPage';
+import PublicProjectDetailsPage from '../pages/PublicProjectDetailsPage';
 import CareersPage from '../pages/CareersPage';
 import JobDetailsPage from '../pages/JobDetailsPage';
 import ApplyJobPage from '../pages/ApplyJobPage';
@@ -121,6 +123,14 @@ export const router = createBrowserRouter([
       {
         path: 'services',
         element: <ServicesPage />,
+      },
+      {
+        path: 'services/:serviceId/projects',
+        element: <ServiceProjectsPage />,
+      },
+      {
+        path: 'projects/:projectId',
+        element: <PublicProjectDetailsPage />,
       },
       {
         path: 'careers',
