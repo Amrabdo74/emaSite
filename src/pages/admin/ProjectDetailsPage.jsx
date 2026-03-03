@@ -4,7 +4,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { useTranslation } from 'react-i18next';
 import { FaArrowLeft, FaArrowRight, FaSpinner, FaGlobe, FaBuilding, FaTools, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { MAIN_SERVICES } from '../../constants/services';
+// import { MAIN_SERVICES } from '../../constants/services';
 
 export default function ProjectDetailsPage() {
   const { id } = useParams();
@@ -15,8 +15,19 @@ export default function ProjectDetailsPage() {
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [mainServices, setMainServices] = useState([]);
 
   useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const snap = await getDoc(doc(db, 'servicesPage', 'content'));
+        if (snap.exists() && snap.data().services?.length > 0) {
+          setMainServices(snap.data().services);
+        }
+      } catch (err) {
+        console.error('Error fetching services:', err);
+      }
+    };
     const fetchProject = async () => {
       try {
         const docRef = doc(db, 'projects', id);
@@ -34,6 +45,7 @@ export default function ProjectDetailsPage() {
     };
 
     fetchProject();
+    fetchServices();
   }, [id]);
 
   const getLocalizedField = (field) => {
@@ -149,8 +161,8 @@ export default function ProjectDetailsPage() {
                  </div>
                  <p className="text-lg font-bold">
                    {(() => {
-                      const service = MAIN_SERVICES.find(s => s.id === project.mainService);
-                      return service ? (isArabic ? service.titleAr : service.titleEn) : '-';
+                      const service = mainServices.find(s => s.id === project.mainService || s.titleEn === project.mainService);
+                      return service ? (isArabic ? service.titleAr : service.titleEn) : project.mainService || '-';
                    })()}
                  </p>
               </div>

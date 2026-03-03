@@ -27,6 +27,11 @@ import CreateProjectPage from '../pages/admin/CreateProjectPage';
 import EditProjectPage from '../pages/admin/EditProjectPage';
 import ProjectDetailsPage from '../pages/admin/ProjectDetailsPage';
 import SettingsPage from '../pages/admin/SettingsPage';
+import HomePageContent from '../pages/admin/HomePageContent';
+import AboutPageContent from '../pages/admin/AboutPageContent';
+import FaqContent from '../pages/admin/FaqContent';
+import FAQPage from '../pages/FAQPage';
+import ServicesContent from '../pages/admin/ServicesContent';
 import AdminLayout from '../layouts/AdminLayout';
 import ProtectedRoute from '../components/admin/ProtectedRoute';
 
@@ -100,6 +105,10 @@ export const router = createBrowserRouter([
         path: 'settings', 
         element: <SettingsPage /> 
       },
+      { path: 'home-content', element: <HomePageContent /> },
+      { path: 'about-content', element: <AboutPageContent /> },
+      { path: 'faq-content', element: <FaqContent /> },
+      { path: 'services-content', element: <ServicesContent /> },
     ]
   },
 
@@ -143,6 +152,10 @@ export const router = createBrowserRouter([
       {
         path: 'careers/:id/apply',
         element: <ApplyJobPage />,
+      },
+      {
+        path: 'faq',
+        element: <FAQPage />,
       },
     ],
   },

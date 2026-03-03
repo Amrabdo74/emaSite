@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
-import { MAIN_SERVICES } from '../constants/services';
+// import { MAIN_SERVICES } from '../constants/services';
+import { doc, getDoc } from 'firebase/firestore';
 import { FaArrowRight, FaArrowLeft, FaCalendar, FaExternalLinkAlt } from 'react-icons/fa';
 
 export default function ServiceProjectsPage() {
@@ -17,20 +18,30 @@ export default function ServiceProjectsPage() {
   const [serviceInfo, setServiceInfo] = useState(null);
 
   useEffect(() => {
-    // Find service info
-    const service = MAIN_SERVICES.find(s => s.id === serviceId);
-    if (service) {
-      setServiceInfo(service);
-    } else {
-      // Handle invalid service ID if needed, or just show generic header
-    }
+    const fetchServicesAndProjects = async () => {
+      let currentServiceId = serviceId;
+      
+      // Fetch service info
+      try {
+        const snap = await getDoc(doc(db, 'servicesPage', 'content'));
+        if (snap.exists() && snap.data().services?.length > 0) {
+          const services = snap.data().services;
+          const service = services.find(s => s.id === serviceId || s.titleEn === serviceId);
+          if (service) {
+             setServiceInfo(service);
+             // Use titleEn for comparison if id doesn't match perfectly
+             currentServiceId = service.id || service.titleEn;
+          }
+        }
+      } catch (e) {
+        console.error("Error fetching services", e);
+      }
 
-    const fetchProjects = async () => {
       try {
         // Remove orderBy to avoid needing a composite index
         const q = query(
           collection(db, 'projects'),
-          where('mainService', '==', serviceId)
+          where('mainService', '==', currentServiceId)
         );
         
         const snapshot = await getDocs(q);
@@ -54,7 +65,7 @@ export default function ServiceProjectsPage() {
       }
     };
 
-    fetchProjects();
+    fetchServicesAndProjects();
   }, [serviceId]);
 
   if (loading) {

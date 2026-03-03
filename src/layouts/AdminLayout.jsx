@@ -12,7 +12,11 @@ import {
   FaTimes,
   FaProjectDiagram,
   FaStar,
-  FaUserTie
+  FaUserTie,
+  FaHome,
+  FaInfoCircle,
+  FaQuestionCircle,
+  FaListAlt
 } from 'react-icons/fa';
 import logo from '../assets/logo.png';
 
@@ -26,16 +30,24 @@ export default function AdminLayout() {
     return location.pathname === path || location.pathname.startsWith(`${path}/`);
   };
 
-  const navItems = [
+  const dataNavItems = [
     { path: '/admin/contact-messages', icon: FaEnvelope, label: isArabic ? 'رسائل تواصل معنا' : 'Contact Messages' },
     { path: '/admin/service-requests', icon: FaTools, label: isArabic ? 'طلبات الخدمات' : 'Service Requests' },
     { path: '/admin/job-applications', icon: FaFileAlt, label: isArabic ? 'طلبات التوظيف' : 'Job Applications' },
     { path: '/admin/jobs', icon: FaBriefcase, label: isArabic ? 'الوظائف' : 'Jobs' },
     { path: '/admin/projects', icon: FaProjectDiagram, label: isArabic ? 'المشاريع' : 'Projects' },
-    { path: '/admin/favorites', icon: FaStar, label: isArabic ? 'المفضلة' : 'Favorites' }, // Added Favorites
-    { path: '/admin/employees', icon: FaUserTie, label: isArabic ? 'الموظفون' : 'Employees' }, // Added Employees
+    { path: '/admin/favorites', icon: FaStar, label: isArabic ? 'المفضلة' : 'Favorites' },
+    { path: '/admin/employees', icon: FaUserTie, label: isArabic ? 'الموظفون' : 'Employees' },
+  ];
+
+  const contentNavItems = [
+    { path: '/admin/home-content', icon: FaHome, label: isArabic ? 'محتوى الرئيسية' : 'Home Content' },
+    { path: '/admin/about-content', icon: FaInfoCircle, label: isArabic ? 'محتوى من نحن' : 'About Content' },
+    { path: '/admin/services-content', icon: FaListAlt, label: isArabic ? 'محتوى الخدمات' : 'Services Content' },
+    { path: '/admin/faq-content', icon: FaQuestionCircle, label: isArabic ? 'الأسئلة الشائعة' : 'FAQ' },
     { path: '/admin/settings', icon: FaCog, label: isArabic ? 'الإعدادات' : 'Settings' },
   ];
+
 
   const handleLogout = () => {
     localStorage.removeItem('adminAuth');
@@ -77,25 +89,59 @@ export default function AdminLayout() {
              <img src={logo} alt="EMA Soft" className="h-12 object-contain" />
         </div>
         
-        <nav className="flex-1 overflow-y-auto py-6 custom-scrollbar">
-          <ul className="space-y-1 px-3">
-            {navItems.map((item) => (
-              <li key={item.path}>
-                <Link
-                  to={item.path}
-                  onClick={() => setIsSidebarOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                    isActive(item.path)
-                      ? 'bg-screens text-primary font-bold'
-                      : 'text-white/80 hover:bg-white/10 hover:text-white'
-                  }`}
-                >
-                  <item.icon className="text-lg shrink-0" />
-                  <span className="text-sm">{item.label}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <nav className="flex-1 overflow-y-auto py-4 custom-scrollbar">
+          {/* Section: Data */}
+          <div className="px-3 mb-1">
+            <p className="text-white/40 text-xs font-semibold uppercase tracking-wider px-4 py-2">
+              {isArabic ? 'إدارة البيانات' : 'Data Management'}
+            </p>
+            <ul className="space-y-1">
+              {dataNavItems.map((item) => (
+                <li key={item.path}>
+                  <Link
+                    to={item.path}
+                    onClick={() => setIsSidebarOpen(false)}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                      isActive(item.path)
+                        ? 'bg-screens text-primary font-bold'
+                        : 'text-white/80 hover:bg-white/10 hover:text-white'
+                    }`}
+                  >
+                    <item.icon className="text-lg shrink-0" />
+                    <span className="text-sm">{item.label}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Divider */}
+          <div className="mx-4 my-3 border-t border-white/10" />
+
+          {/* Section: Content */}
+          <div className="px-3">
+            <p className="text-white/40 text-xs font-semibold uppercase tracking-wider px-4 py-2">
+              {isArabic ? 'إدارة المحتوى' : 'Content Management'}
+            </p>
+            <ul className="space-y-1">
+              {contentNavItems.map((item) => (
+                <li key={item.path}>
+                  <Link
+                    to={item.path}
+                    onClick={() => setIsSidebarOpen(false)}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                      isActive(item.path)
+                        ? 'bg-screens text-primary font-bold'
+                        : 'text-white/80 hover:bg-white/10 hover:text-white'
+                    }`}
+                  >
+                    <item.icon className="text-lg shrink-0" />
+                    <span className="text-sm">{item.label}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </nav>
 
         <div className="p-4 border-t border-white/10 flex-shrink-0">
@@ -107,6 +153,7 @@ export default function AdminLayout() {
             <span className="text-sm">{isArabic ? 'تسجيل الخروج' : 'Logout'}</span>
           </button>
         </div>
+
       </aside>
 
       {/* Main Content */}

@@ -1,22 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const MissionVisionComponent = () => {
   const { t, i18n } = useTranslation();
   const isArabic = i18n.language === 'ar';
+  const lang = isArabic ? 'ar' : 'en';
+
+  const [pageData, setPageData] = useState(null);
+
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, 'aboutPage', 'content'), (snap) => {
+      if (snap.exists()) {
+        setPageData(snap.data());
+      }
+    });
+    return () => unsub();
+  }, []);
+
+  const missionTitle = pageData?.mission?.title?.[lang] || t('mission.title');
+  const missionText = pageData?.mission?.text?.[lang] || t('mission.text');
+  const visionTitle = pageData?.vision?.title?.[lang] || t('vision.title');
+  const visionText = pageData?.vision?.text?.[lang] || t('vision.text');
 
   return (
     <div className={`min-h-screen bg-white ${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
 
       <div className="py-12 md:py-20">
         <div className="flex flex-col gap-12 md:gap-16">
-          
+
           {/* Mission Section - Right Aligned */}
           <div className="w-full flex justify-start">
             <div className="relative w-full" style={{ maxWidth: '730px' }}>
-              {/* Orange Sidebar - لازق في أقصى اليمين */}
+              {/* Orange Sidebar */}
               <div className="absolute top-0 right-0 w-2.5 md:w-8 h-full bg-[#FAA617]"></div>
-              
+
               <div className={`${isArabic ? 'pr-6 md:pr-16' : 'pl-6 md:pl-16'} py-8 text-center`}>
                 {/* Mission Icon */}
                 <div className="mb-6 flex justify-center">
@@ -26,15 +45,15 @@ const MissionVisionComponent = () => {
                     <path d="M32 34C28.6863 34 26 36.6863 26 40C26 43.3137 28.6863 46 32 46C35.3137 46 38 43.3137 38 40C38 36.6863 35.3137 34 32 34Z" fill="currentColor"/>
                   </svg>
                 </div>
-                
+
                 {/* Mission Title */}
                 <h2 className="text-3xl md:text-4xl font-bold text-[#103B68] mb-6">
-                  {t('mission.title')}
+                  {missionTitle}
                 </h2>
-                
+
                 {/* Mission Text */}
                 <p className="text-gray-700 text-base md:text-lg leading-relaxed" style={{ fontFamily: isArabic ? 'Cairo, sans-serif' : 'system-ui' }}>
-                  {t('mission.text')}
+                  {missionText}
                 </p>
               </div>
             </div>
@@ -43,9 +62,9 @@ const MissionVisionComponent = () => {
           {/* Vision Section - Left Aligned */}
           <div className="w-full flex justify-end">
             <div className="relative w-full" style={{ maxWidth: '730px' }}>
-              {/* Blue Sidebar - لازق في أقصى الشمال */}
+              {/* Blue Sidebar */}
               <div className="absolute top-0 left-0 w-2.5 md:w-8 h-full bg-[#103B68]"></div>
-              
+
               <div className={`${isArabic ? 'pl-6 md:pl-16' : 'pr-6 md:pr-16'} py-8 text-center`}>
                 {/* Vision Icon */}
                 <div className="mb-6 flex justify-center">
@@ -58,15 +77,15 @@ const MissionVisionComponent = () => {
                     <circle cx="50" cy="18" r="3" fill="white"/>
                   </svg>
                 </div>
-                
+
                 {/* Vision Title */}
                 <h2 className="text-3xl md:text-4xl font-bold text-[#103B68] mb-6">
-                  {t('vision.title')}
+                  {visionTitle}
                 </h2>
-                
+
                 {/* Vision Text */}
                 <p className="text-gray-700 text-base md:text-lg leading-relaxed" style={{ fontFamily: isArabic ? 'Cairo, sans-serif' : 'system-ui' }}>
-                  {t('vision.text')}
+                  {visionText}
                 </p>
               </div>
             </div>

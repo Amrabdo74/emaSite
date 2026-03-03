@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { FaSave, FaArrowLeft, FaArrowRight, FaSpinner, FaPlus, FaTimes } from 'react-icons/fa';
 import BilingualInput from '../../components/admin/BilingualInput';
 
-import { MAIN_SERVICES } from '../../constants/services';
+// import { MAIN_SERVICES } from '../../constants/services';
 
 export default function EditProjectPage() {
   const navigate = useNavigate();
@@ -30,10 +30,23 @@ export default function EditProjectPage() {
   const [executionStages, setExecutionStages] = useState([{ ar: '', en: '' }]); 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [mainServices, setMainServices] = useState([]);
 
   useEffect(() => {
     fetchProject();
+    fetchServices();
   }, [id]);
+
+  const fetchServices = async () => {
+    try {
+      const snap = await getDoc(doc(db, 'servicesPage', 'content'));
+      if (snap.exists() && snap.data().services?.length > 0) {
+        setMainServices(snap.data().services);
+      }
+    } catch (err) {
+      console.error('Error fetching services:', err);
+    }
+  };
 
   const fetchProject = async () => {
     try {
@@ -173,8 +186,8 @@ export default function EditProjectPage() {
                    required
                 >
                    <option value="">{isArabic ? 'اختر الخدمة' : 'Select Service'}</option>
-                   {MAIN_SERVICES.map(service => (
-                     <option key={service.id} value={service.id}>
+                   {mainServices.map(service => (
+                     <option key={service.id || service.titleEn} value={service.id || service.titleEn}>
                         {isArabic ? service.titleAr : service.titleEn}
                      </option>
                    ))}

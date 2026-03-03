@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaCode, FaBullhorn, FaBuilding, FaFileAlt, FaImages } from 'react-icons/fa';
 import FAQ from '../components/FAQ';
-import { collection, query, getDocs } from 'firebase/firestore';
+import { collection, query, getDocs, doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 
 export default function ServicesPage() {
@@ -11,6 +11,7 @@ export default function ServicesPage() {
   const currentLanguage = i18n.language === 'ar' ? "ar" : "en";
   const [hoveredService, setHoveredService] = useState(null);
   const [servicesWithProjects, setServicesWithProjects] = useState({});
+  const [firestoreServices, setFirestoreServices] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,21 +20,24 @@ export default function ServicesPage() {
         const q = query(collection(db, 'projects'));
         const snapshot = await getDocs(q);
         const projectCounts = {};
-        
-        snapshot.docs.forEach(doc => {
-          const data = doc.data();
-          if (data.mainService) {
-            projectCounts[data.mainService] = true;
-          }
+        snapshot.docs.forEach(d => {
+          const data = d.data();
+          if (data.mainService) projectCounts[data.mainService] = true;
         });
-        
         setServicesWithProjects(projectCounts);
       } catch (error) {
-        console.error("Error fetching projects:", error);
+        console.error('Error fetching projects:', error);
       }
     };
-
     checkProjects();
+
+    // Listen to Firestore services
+    const unsub = onSnapshot(doc(db, 'servicesPage', 'content'), (snap) => {
+      if (snap.exists() && snap.data().services?.length > 0) {
+        setFirestoreServices(snap.data().services);
+      }
+    });
+    return () => unsub();
   }, []);
 
   const handleRequestService = (serviceTitle) => {
@@ -202,7 +206,7 @@ export default function ServicesPage() {
       <section className="py-12 md:py-20">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-            {services.map((service, index) => (
+            {(firestoreServices || services).map((service, index) => (
               <div
                 key={service.id}
                 onMouseEnter={() => setHoveredService(service.id)}

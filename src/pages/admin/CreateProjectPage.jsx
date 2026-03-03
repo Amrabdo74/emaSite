@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
@@ -6,7 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { FaSave, FaArrowLeft, FaArrowRight, FaSpinner, FaPlus, FaTimes } from 'react-icons/fa';
 import BilingualInput from '../../components/admin/BilingualInput';
 
-import { MAIN_SERVICES } from '../../constants/services';
+// import { MAIN_SERVICES } from '../../constants/services';
+import { doc, getDoc } from 'firebase/firestore';
 
 export default function CreateProjectPage() {
   const navigate = useNavigate();
@@ -28,6 +29,22 @@ export default function CreateProjectPage() {
   const [technologies, setTechnologies] = useState(['']); // List of strings
   const [executionStages, setExecutionStages] = useState([{ ar: '', en: '' }]); // List of bilingual objects
   const [loading, setLoading] = useState(false);
+  const [mainServices, setMainServices] = useState([]);
+
+  // Fetch Services from Firestore
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const snap = await getDoc(doc(db, 'servicesPage', 'content'));
+        if (snap.exists() && snap.data().services?.length > 0) {
+          setMainServices(snap.data().services);
+        }
+      } catch (err) {
+        console.error('Error fetching services:', err);
+      }
+    };
+    fetchServices();
+  }, []);
 
   // --- Dynamic Handlers ---
 
@@ -131,8 +148,8 @@ export default function CreateProjectPage() {
                    required
                 >
                    <option value="">{isArabic ? 'اختر الخدمة' : 'Select Service'}</option>
-                   {MAIN_SERVICES.map(service => (
-                     <option key={service.id} value={service.id}>
+                   {mainServices.map(service => (
+                     <option key={service.id || service.titleEn} value={service.id || service.titleEn}>
                         {isArabic ? service.titleAr : service.titleEn}
                      </option>
                    ))}
