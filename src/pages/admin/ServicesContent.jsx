@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { useTranslation } from 'react-i18next';
-import { FaSave, FaSpinner, FaPlus, FaTrash, FaTools, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaSave, FaSpinner, FaPlus, FaTrash, FaTools, FaChevronDown, FaChevronUp, FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const DEFAULT_SERVICES = [
   {
@@ -128,16 +128,18 @@ export default function ServicesContent() {
   };
 
   const addService = () => {
-    const newSvc = { id: `service_${Date.now()}`, titleAr: '', titleEn: '', shortDescAr: '', shortDescEn: '', descriptionAr: '', descriptionEn: '', featuresAr: [''], featuresEn: [''], imageUrl: '' };
+    const newSvc = { id: `service_${Date.now()}`, titleAr: '', titleEn: '', shortDescAr: '', shortDescEn: '', descriptionAr: '', descriptionEn: '', featuresAr: [''], featuresEn: [''], imageUrl: '', isActive: true };
     setServices(prev => [...prev, newSvc]);
     setExpandedIndex(services.length);
   };
 
-  const removeService = (index) => {
-    if (services.length <= 1) return;
-    if (!window.confirm(isArabic ? 'حذف هذه الخدمة؟' : 'Delete this service?')) return;
-    setServices(prev => prev.filter((_, i) => i !== index));
-    if (expandedIndex === index) setExpandedIndex(null);
+  const toggleActiveStatus = (index) => {
+    setServices(prev => prev.map((s, i) => {
+      if (i === index) {
+        return { ...s, isActive: s.isActive === false ? true : false };
+      }
+      return s;
+    }));
   };
 
   if (loading) {
@@ -182,25 +184,34 @@ export default function ServicesContent() {
           <div key={service.id || index} className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
             {/* Accordion Header */}
             <div
-              className="flex items-center justify-between p-5 cursor-pointer hover:bg-gray-50 transition-colors"
+              className={`flex items-center justify-between p-5 cursor-pointer hover:bg-gray-50 transition-colors ${service.isActive === false ? 'opacity-60 bg-gray-50' : ''}`}
               onClick={() => setExpandedIndex(expandedIndex === index ? null : index)}
             >
               <div className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-bold flex-shrink-0">{index + 1}</span>
+                <span className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ${service.isActive === false ? 'bg-gray-200 text-gray-500' : 'bg-primary/10 text-primary'}`}>
+                  {index + 1}
+                </span>
                 <div>
-                  <p className="font-semibold text-gray-800">
-                    {isArabic ? (service.titleAr || `خدمة ${index + 1}`) : (service.titleEn || `Service ${index + 1}`)}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <p className={`font-semibold ${service.isActive === false ? 'text-gray-500 line-through' : 'text-gray-800'}`}>
+                      {isArabic ? (service.titleAr || `خدمة ${index + 1}`) : (service.titleEn || `Service ${index + 1}`)}
+                    </p>
+                    {service.isActive === false && (
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-red-100 text-red-600 font-medium">
+                        {isArabic ? 'غير مفعل' : 'Inactive'}
+                      </span>
+                    )}
+                  </div>
                   <p className="text-xs text-gray-400">{isArabic ? service.shortDescAr : service.shortDescEn}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <button
-                  onClick={(e) => { e.stopPropagation(); removeService(index); }}
-                  disabled={services.length <= 1}
-                  className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  onClick={(e) => { e.stopPropagation(); toggleActiveStatus(index); }}
+                  className={`p-2 rounded-lg transition-colors ${service.isActive === false ? 'text-green-500 hover:bg-green-50' : 'text-orange-400 hover:bg-orange-50 hover:text-orange-600'}`}
+                  title={service.isActive === false ? (isArabic ? 'تفعيل الخدمة' : 'Activate Service') : (isArabic ? 'إلغاء تفعيل الخدمة' : 'Deactivate Service')}
                 >
-                  <FaTrash className="text-sm" />
+                  {service.isActive === false ? <FaEyeSlash className="text-lg" /> : <FaEye className="text-lg" />}
                 </button>
                 {expandedIndex === index ? <FaChevronUp className="text-gray-400" /> : <FaChevronDown className="text-gray-400" />}
               </div>
