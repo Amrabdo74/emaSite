@@ -26,7 +26,7 @@ function ContactInfo() {
           )}
 
           {/* Phone */}
-          {settings.phone && (
+          {(settings.phones || []).filter(Boolean).length > 0 && (
             <div className="flex items-center gap-4 bg-gray-50 p-6 rounded-lg hover:shadow-lg transition">
               <div className="bg-screens p-4 rounded-full">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -35,7 +35,13 @@ function ContactInfo() {
               </div>
               <div className="text-right">
                 <h3 className="text-gray-600 mb-1">{t('hero.contactUs')}</h3>
-                <p className="text-primary font-semibold" dir="ltr">{settings.phone}</p>
+                <div className="flex flex-col gap-0.5">
+                  {(settings.phones || []).filter(Boolean).map((phone, i) => (
+                    <a key={i} href={`tel:${phone}`} className="text-primary font-semibold hover:underline" dir="ltr">
+                      {phone}
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
           )}

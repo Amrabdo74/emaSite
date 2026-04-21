@@ -2,33 +2,38 @@ import { useState, useEffect } from 'react';
 import { doc, getDoc, setDoc } from 'firebase/firestore'; 
 import { db } from '../../firebase';
 import { useTranslation } from 'react-i18next';
-import { FaSave, FaSpinner, FaMapMarkerAlt } from 'react-icons/fa';
-import BilingualInput from '../../components/admin/BilingualInput'; // Import BilingualInput
+import { FaSave, FaSpinner, FaMapMarkerAlt, FaPlus, FaTrash } from 'react-icons/fa';
+import BilingualInput from '../../components/admin/BilingualInput';
 
 export default function SettingsPage() {
   const { t, i18n } = useTranslation();
   const isArabic = i18n.language === 'ar';
   
-  // Adjusted State for location
   const [settings, setSettings] = useState({
     email: '',
-    phone: '',
+    phones: [''],
     fax: '',
     facebook: '',
     twitter: '',
     instagram: '',
     linkedin: '',
-    whatsapp: '', 
-    location: { ar: '', en: '' }, // Bilingual Location
-    locationMapUrl: '', // Map Embed Link
+    whatsappNumbers: [{ number: '', url: '' }],
+    location: { ar: '', en: '' },
+    locationMapUrl: '',
   });
-  const [whatsappNumber, setWhatsappNumber] = useState(''); 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     fetchSettings();
   }, []);
+
+  // Helper: normalize a field to always be a non-empty array
+  const toArray = (val, fallback) => {
+    if (Array.isArray(val) && val.length > 0) return val;
+    if (typeof val === 'string' && val.trim()) return [val.trim()];
+    return fallback;
+  };
 
   const fetchSettings = async () => {
     try {
@@ -37,21 +42,30 @@ export default function SettingsPage() {
       
       if (docSnap.exists()) {
         const data = docSnap.data();
-        setSettings({ 
-             ...settings, 
-             ...data,
-             location: data.location || { ar: '', en: '' }, // Ensure object exists
-             locationMapUrl: data.locationMapUrl || ''
-        });
-        
-        if (data.whatsapp) {
-          const match = data.whatsapp.match(/wa\.me\/(\d+)/);
-          if (match && match[1]) {
-            setWhatsappNumber(match[1]);
-          } else {
-             setWhatsappNumber(data.whatsapp.replace(/\D/g, ''));
-          }
+
+        // Normalize phones
+        const phones = toArray(data.phones || data.phone, ['']);
+
+        // Normalize whatsappNumbers — support both old string and new array format
+        let whatsappNumbers;
+        if (Array.isArray(data.whatsappNumbers) && data.whatsappNumbers.length > 0) {
+          whatsappNumbers = data.whatsappNumbers;
+        } else if (data.whatsapp) {
+          const match = data.whatsapp.match(/wa\.me\/(\+?\d+)/);
+          const num = match ? match[1].replace('+', '') : data.whatsapp.replace(/\D/g, '');
+          whatsappNumbers = num ? [{ number: num, url: `https://wa.me/${num}` }] : [{ number: '', url: '' }];
+        } else {
+          whatsappNumbers = [{ number: '', url: '' }];
         }
+
+        setSettings(prev => ({ 
+          ...prev, 
+          ...data,
+          phones,
+          whatsappNumbers,
+          location: data.location || { ar: '', en: '' },
+          locationMapUrl: data.locationMapUrl || ''
+        }));
       }
     } catch (error) {
       console.error("Error fetching settings:", error);
@@ -60,23 +74,44 @@ export default function SettingsPage() {
     }
   };
 
+  // --- Phones helpers ---
+  const addPhone = () => setSettings(prev => ({ ...prev, phones: [...prev.phones, ''] }));
+  const removePhone = (i) => setSettings(prev => ({ ...prev, phones: prev.phones.filter((_, idx) => idx !== i) }));
+  const updatePhone = (i, val) => setSettings(prev => {
+    const phones = [...prev.phones];
+    phones[i] = val;
+    return { ...prev, phones };
+  });
+
+  // --- WhatsApp helpers ---
+  const addWhatsapp = () => setSettings(prev => ({ ...prev, whatsappNumbers: [...prev.whatsappNumbers, { number: '', url: '' }] }));
+  const removeWhatsapp = (i) => setSettings(prev => ({ ...prev, whatsappNumbers: prev.whatsappNumbers.filter((_, idx) => idx !== i) }));
+  const updateWhatsapp = (i, val) => {
+    const num = val.replace(/\D/g, '');
+    setSettings(prev => {
+      const whatsappNumbers = [...prev.whatsappNumbers];
+      whatsappNumbers[i] = { number: num, url: num ? `https://wa.me/${num}` : '' };
+      return { ...prev, whatsappNumbers };
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
 
     try {
-      // Generate WhatsApp URL
-      const finalWhatsappUrl = whatsappNumber 
-        ? `https://wa.me/${whatsappNumber}` 
-        : '';
+      // Filter out empty entries
+      const phones = settings.phones.filter(p => p.trim());
+      const whatsappNumbers = settings.whatsappNumbers.filter(w => w.number.trim());
 
       await setDoc(doc(db, 'settings', 'global'), {
         ...settings,
-        whatsapp: finalWhatsappUrl,
+        phones,
+        whatsappNumbers,
         updatedAt: new Date()
       });
 
-      setSettings(prev => ({ ...prev, whatsapp: finalWhatsappUrl }));
+      setSettings(prev => ({ ...prev, phones, whatsappNumbers }));
       alert(isArabic ? 'تم حفظ الإعدادات بنجاح' : 'Settings saved successfully');
     } catch (error) {
       console.error("Error saving settings:", error);
@@ -109,6 +144,7 @@ export default function SettingsPage() {
               {isArabic ? 'معلومات التواصل' : 'Contact Information'}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Email */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   {isArabic ? 'البريد الإلكتروني' : 'Email Address'}
@@ -121,18 +157,8 @@ export default function SettingsPage() {
                   dir="ltr"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {isArabic ? 'رقم الهاتف' : 'Phone Number'}
-                </label>
-                <input
-                  type="text"
-                  value={settings.phone}
-                  onChange={(e) => setSettings({...settings, phone: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-screens focus:border-screens outline-none transition-all"
-                  dir="ltr"
-                />
-              </div>
+
+              {/* Fax */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   {isArabic ? 'الفاكس' : 'Fax'}
@@ -144,6 +170,47 @@ export default function SettingsPage() {
                   className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-screens focus:border-screens outline-none transition-all"
                   dir="ltr"
                 />
+              </div>
+            </div>
+
+            {/* Phone Numbers - Dynamic List */}
+            <div className="mt-6 border-t pt-6">
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-sm font-semibold text-gray-700">
+                  {isArabic ? 'أرقام الهاتف' : 'Phone Numbers'}
+                </label>
+                <button
+                  type="button"
+                  onClick={addPhone}
+                  className="flex items-center gap-1.5 text-sm text-screens font-medium hover:text-screens/80 transition-colors"
+                >
+                  <FaPlus className="text-xs" />
+                  {isArabic ? 'إضافة رقم' : 'Add Number'}
+                </button>
+              </div>
+              <div className="space-y-3">
+                {settings.phones.map((phone, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={phone}
+                      onChange={(e) => updatePhone(i, e.target.value)}
+                      placeholder="e.g. +971501234567"
+                      className="flex-1 px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-screens focus:border-screens outline-none transition-all"
+                      dir="ltr"
+                    />
+                    {settings.phones.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removePhone(i)}
+                        className="p-2.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                        title={isArabic ? 'حذف' : 'Remove'}
+                      >
+                        <FaTrash />
+                      </button>
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
             
@@ -213,30 +280,62 @@ export default function SettingsPage() {
                 </div>
               ))}
               
-              {/* WhatsApp Special Handling */}
-              <div>
-                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                    WhatsApp Number
-                  </label>
-                  <div className="relative">
+            </div>
+
+            {/* WhatsApp Numbers - Dynamic List */}
+            <div className="mt-4 pt-4 border-t">
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-sm font-semibold text-gray-700">
+                  WhatsApp {isArabic ? 'الأرقام' : 'Numbers'}
+                </label>
+                <button
+                  type="button"
+                  onClick={addWhatsapp}
+                  className="flex items-center gap-1.5 text-sm text-screens font-medium hover:text-screens/80 transition-colors"
+                >
+                  <FaPlus className="text-xs" />
+                  {isArabic ? 'إضافة رقم' : 'Add Number'}
+                </button>
+              </div>
+              <div className="space-y-3">
+                {settings.whatsappNumbers.map((wa, i) => (
+                  <div key={i} className="flex items-center gap-2">
                     <input
                       type="text"
-                      value={whatsappNumber}
-                      onChange={(e) => {
-                        const val = e.target.value.replace(/\D/g, ''); // Allow only numbers
-                        setWhatsappNumber(val);
-                      }}
-                      placeholder="e.g. 971501234567"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-screens focus:border-screens outline-none transition-all"
+                      value={wa.number}
+                      onChange={(e) => updateWhatsapp(i, e.target.value)}
+                      placeholder={isArabic ? 'مثال: 971501234567 (بدون +)' : 'e.g. 971501234567 (without +)'}
+                      className="flex-1 px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-screens focus:border-screens outline-none transition-all"
                       dir="ltr"
                     />
-                    <p className="mt-1 text-xs text-gray-500">
-                      {isArabic 
-                        ? 'أدخل الرقم مع رمز الدولة (بدون +). سيتم إنشاء الرابط تلقائيًا.' 
-                        : 'Enter number with country code (without +). Link will be generated automatically.'}
-                    </p>
+                    {wa.url && (
+                      <a
+                        href={wa.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-3 text-xs text-green-600 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition-colors whitespace-nowrap"
+                      >
+                        ✓ Test
+                      </a>
+                    )}
+                    {settings.whatsappNumbers.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeWhatsapp(i)}
+                        className="p-2.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                        title={isArabic ? 'حذف' : 'Remove'}
+                      >
+                        <FaTrash />
+                      </button>
+                    )}
                   </div>
+                ))}
               </div>
+              <p className="mt-2 text-xs text-gray-400">
+                {isArabic 
+                  ? 'أدخل الرقم مع رمز الدولة بدون +. سيتم إنشاء رابط الواتساب تلقائيًا.'
+                  : 'Enter number with country code (without +). WhatsApp link is generated automatically.'}
+              </p>
             </div>
           </div>
 
