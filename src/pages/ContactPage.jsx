@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { FaAddressBook, FaEnvelope, FaMapMarkerAlt, FaSpinner } from "react-icons/fa";
 import { FaSquarePhone } from "react-icons/fa6";
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useSettings } from '../context/SettingsContext';
 
@@ -41,6 +41,16 @@ const ContactPage = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [firestoreServices, setFirestoreServices] = useState(null);
+
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, 'servicesPage', 'content'), (snap) => {
+      if (snap.exists() && snap.data().services?.length > 0) {
+        setFirestoreServices(snap.data().services);
+      }
+    });
+    return () => unsub();
+  }, []);
 
   useEffect(() => {
     if (location.state) {
@@ -322,7 +332,7 @@ const ContactPage = () => {
                       required
                     >
                       <option value="">{isArabic ? "اختر الخدمة" : "Select Service"}</option>
-                      {services.map(service => (
+                      {(firestoreServices || services).filter(s => s.isActive !== false).map(service => (
                         <option key={service.id} value={isArabic ? service.titleAr : service.titleEn}>
                           {isArabic ? service.titleAr : service.titleEn}
                         </option>
